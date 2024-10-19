@@ -3,7 +3,7 @@ let background_img;
 let game_title_img;
 let font;
 let test_sound;
-const windowWidth = 1000, windowHeight = 500;
+const windowWidth = 750, windowHeight = 500;
 let quiting;
 
 function preload() {

@@ -46,38 +46,39 @@ class Song {
 
 
 class DDR {
-    #clear_arrow;
-    #stone_arrow;
-    #iron_arrow;
-    #gold_arrow;
-    #diamond_arrow;
+    #song;
+    #bpm;
+    #time_start;
 
-    #hard_song;
-    #easy_song;
+    #speed;
 
-    #beats;
+    constructor(song_f, bpm) {
+        this.song = new Song(song_f, beat1, bpm);
+        this.bpm = bpm;
+        this.time_start = millis();
 
-    constructor(arrow_c, arrow_s, arrow_i, arrow_g, arrow_d, song1_f, song2_f) {
-        this.clear_arrow = arrow_c;
-        this.stone_arrow = arrow_s;
-        this.iron_arrow = arrow_i;
-        this.gold_arrow = arrow_g;
-        this.diamond_arrow = arrow_d;
+        this.speed = 500 / (bpm/60);
+    }
 
-        beat1 = [1, 0, 1, 0];
+    next_song(song_f, bpm) {
+        this.song = new Song(song_f, beat1, bpm);
+        this.bpm = bpm;
+        this.time_start = millis();
 
-        this.hard_song = new Song(song1_f, beat1, 110.01);
-        this.easy_song = new Song(song2_f, beat2, 85.00);
-        
+        this.speed = 500 / (bpm/60);
     }
 
     move_arrows() {
 
     }
 
+    #spawn_arrow(direction) {
+
+    }
+
     update() {
-        if(playing === "blocks") {
-            
+        if((millis() - this.time_start) % (bpm/60/100) == 0) {
+            this.#spawn_arrow();
         }
     }
 

@@ -15,6 +15,8 @@ function preload() {
     let sng = new Song(null, 0, [1,0,0,1,0,1,0,0,1], 60);
 
     console.log(sng.distance_from_beat(180));
+
+    
 }
 
 function setup() {

@@ -1,5 +1,5 @@
-//blocks, 110.01
-//pigstep, 85.00
+//blocks, 110.01 : 1.8335 bps
+//pigstep, 85.00 : 1.4167 bps
 
 class Song {
     #beat;
@@ -7,12 +7,10 @@ class Song {
     #audio;
     #health;
     #combo;
-    #speed;
     #last_beat_index;
 
-    constructor(sound, difficulty, beat, bpm) {
+    constructor(sound, beat, bpm) {
         this.audio = sound;
-        this.speed = (difficulty===0)? 1 : 2;
         this.health = 10;
         this.beat = beat;
         this.bpm = bpm;
@@ -48,24 +46,43 @@ class Song {
 
 
 class DDR {
-    #clear_arrow;
-    #stone_arrow;
-    #iron_arrow;
-    #gold_arrow;
-    #diamond_arrow;
+    #song;
+    #bpm;
+    #time_start;
 
-    #hard_song;
-    #easy_song;
+    #speed;
 
-    constructor(arrow_c, arrow_s, arrow_i, arrow_g, arrow_d, song1, song2) {
-        this.clear_arrow = arrow_c;
-        this.stone_arrow = arrow_s;
-        this.iron_arrow = arrow_i;
-        this.gold_arrow = arrow_g;
-        this.diamond_arrow = arrow_d;
+    constructor(song_f, bpm) {
+        this.song = new Song(song_f, beat1, bpm);
+        this.bpm = bpm;
+        this.time_start = millis();
 
-        this.hard_song = song1;
-        this.easy_song = song2;
-        
+        this.speed = 500 / (bpm/60);
+    }
+
+    next_song(song_f, bpm) {
+        this.song = new Song(song_f, beat1, bpm);
+        this.bpm = bpm;
+        this.time_start = millis();
+
+        this.speed = 500 / (bpm/60);
+    }
+
+    move_arrows() {
+
+    }
+
+    #spawn_arrow(direction) {
+
+    }
+
+    update() {
+        if((millis() - this.time_start) % (bpm/60/100) == 0) {
+            this.#spawn_arrow();
+        }
+    }
+
+    display() {
+
     }
 }

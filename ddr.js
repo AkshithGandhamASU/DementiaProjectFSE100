@@ -52,12 +52,16 @@ class DDR {
 
     #speed;
 
+    directions;
+
     constructor(song_f, bpm) {
         this.song = new Song(song_f, beat1, bpm);
         this.bpm = bpm;
         this.time_start = millis();
 
         this.speed = 500 / (bpm/60);
+
+        this.directions = ['l', 'r', 'u', 'd', 'n'];
     }
 
     next_song(song_f, bpm) {
@@ -73,12 +77,12 @@ class DDR {
     }
 
     #spawn_arrow(direction) {
-
+        
     }
 
     update() {
         if((millis() - this.time_start) % (bpm/60/100) == 0) {
-            this.#spawn_arrow();
+            this.#spawn_arrow(directions(random(0, 4)));
         }
     }
 

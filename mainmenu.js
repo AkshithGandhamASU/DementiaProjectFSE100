@@ -39,12 +39,11 @@ function preload() {
     images.push(loadImage('assets/MessyMemory/mariopartyItem4.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem5.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem6.jpg'));
-    images.push(loadImage('assets/MessyMemory/mariopartyItem6.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem7.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem8.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem9.jpg'));
-    easyBackgroundImg = loadImage('assets/MessyMemory/e.jpg'); // Replace with your easy difficulty background path
-    hardBackgroundImg = loadImage('assets/MessyMemory/h.jpg'); // Replace with your hard difficulty background path
+    easyBackgroundImg = loadImage('assets/MessyMemory/e.jpg'); 
+    hardBackgroundImg = loadImage('assets/MessyMemory/h.jpg'); 
 
 }
 
@@ -102,9 +101,10 @@ function setup() {
 }
 
 function messymemory() {
+  gameState = 2;
+  
   marioParty.setup();
   
-  gameState = 2;
   
   buttons[3].hide();
   buttons[4].hide();
@@ -154,6 +154,12 @@ function back() {
 }
 
 function draw() {
+    if(marioParty.getFinished()) {
+        console.log("GameState ", gameState);
+        gameState = 0;
+        resizeCanvas(windowWidth, windowHeight);
+        back();
+    }
     if(gameState == 0) {
         noStroke();
         

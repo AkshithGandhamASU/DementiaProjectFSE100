@@ -16,11 +16,15 @@ class MarioParty{
 
     gameState;
 
+    started;
+    finished;
+
     constructor(easyBackgroundImg, hardBackgroundImg, images) {
         this.images = images;
         this.hardBackgroundImg = hardBackgroundImg;
         this.easyBackgroundImg = easyBackgroundImg;
         this.gameState = "menu";
+        this.finished = false;
     }
 
     // Target positions for each this.difficulty setting
@@ -40,9 +44,12 @@ class MarioParty{
 
 
     setup() {
-        resizeCanvas(600, 400);   // Set the canvas size to match the background or as needed
+        resizeCanvas(600, 600);   // Set the canvas size to match the background or as needed
         textSize(32);
         textAlign(CENTER, CENTER);
+        this.gameState = "menu";
+        console.log("setup" + this.gameState);
+        this.started = true;
     }
 
     initializeItems() {
@@ -66,7 +73,16 @@ class MarioParty{
         }
         
         // Shuffle this.playerOrder for the memory test, to randomize item positions
-        this.playerOrder = shuffle([...this.originalOrder]);
+        this.playerOrder = ([...this.originalOrder]);
+        for (let i = this.playerOrder.length - 1; i > 0; i--) {
+            // Generate a random index between 0 and i
+            const j = Math.floor(Math.random() * (i + 1));
+            
+            // Swap elements at index i and j
+            [this.playerOrder[i], this.playerOrder[j]] = [this.playerOrder[j], this.playerOrder[i]];
+            [this.targetPositions[this.difficulty][i], this.targetPositions[this.difficulty][j]] = [this.targetPositions[this.difficulty][j], this.targetPositions[this.difficulty][i]];
+
+        }
 
         // Show this.items briefly before hiding
         this.revealed = true;
@@ -74,9 +90,17 @@ class MarioParty{
     }
 
     draw() {
-        if (this.gameState === "menu") {
+        if(this.started) {
+            this.gameState = "menu";
+            this.started = false;
+        }
+        
+        console.log(this.gameState);
+        
+        if (this.gameState == "menu") {
             this.drawMenu();             // Draw the start menu
-        } else if (this.gameState === "play") {
+        }
+        else if (this.gameState == "play") {
             this.drawGame();             // Draw the game
         }
     }
@@ -101,7 +125,7 @@ class MarioParty{
     }
 
     mousePressed() {
-        if (this.gameState === "menu") {
+        if (this.gameState == "menu") {
             // Check if "Easy" button was clicked
             if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100 &&
                 mouseY > height / 2 - 30 && mouseY < height / 2 + 20) {
@@ -117,7 +141,7 @@ class MarioParty{
               this.gameState = "play";   // Switch to game state
               this.initializeItems();    // Initialize this.items for hard this.difficulty
             }
-        } else if (this.gameState === "play") {
+        } else if (this.gameState == "play") {
             // Check if an item has been clicked on (only active when this.items are hidden)
             if (!this.revealed) {
             for (let i = 0; i < this.playerOrder.length; i++) {
@@ -126,8 +150,9 @@ class MarioParty{
                 // Check if mouse is within the item’s boundaries
                 if (mouseX > item.x && mouseX < item.x + this.tileSize &&
                     mouseY > item.y && mouseY < item.y + this.tileSize) {
-                this.selectedItem = i;  // Select the item to be dragged
-                break;
+                    this.selectedItem = i;  // Select the item to be dragged
+                    console.log(this.selectedItem);
+                    break;
                 }
             }
             }
@@ -146,10 +171,10 @@ class MarioParty{
             
             if (this.revealed) {
             // Display item this.images at their correct positions if this.revealed
-            image(this.images[item.id], item.targetX, item.targetY, this.tileSize, this.tileSize);
+                image(this.images[item.id], item.targetX, item.targetY, this.tileSize, this.tileSize);
             } else {
             // Display item at current position, to be dragged and dropped
-            image(this.images[item.id], item.x, item.y, this.tileSize, this.tileSize);
+                image(this.images[item.id], item.x, item.y, this.tileSize, this.tileSize);
             }
         }
         
@@ -172,14 +197,12 @@ class MarioParty{
         }
     }
 
+    getFinished() {
+        return this.finished;
+    }
+
     mouseReleased() {
         if (!this.revealed && this.selectedItem !== null) {
-            let item = this.items[this.playerOrder[this.selectedItem]];
-            let closestTarget = this.targetPositions[this.difficulty].reduce((closest, pos) => {
-            return dist(item.x, item.y, pos.x, pos.y) < dist(item.x, item.y, closest.x, closest.y) ? pos : closest;
-            });
-            item.x = closestTarget.x;
-            item.y = closestTarget.y;
             this.selectedItem = null;
             if (this.checkResult()) {
                 this.revealed = true;
@@ -191,10 +214,17 @@ class MarioParty{
     }
 
     checkResult() {
+        console.log("Checking result");
         for (let i = 0; i < this.playerOrder.length; i++) {
             let item = this.items[this.playerOrder[i]];
             let target = this.targetPositions[this.difficulty][i];
-            if (item.x !== target.x || item.y !== target.y) return false;
+            console.log("Item ", item.x, item.y);
+            console.log(target);
+            let within_x = (item.x <= (target.x + width/(2*Math.sqrt(this.difficulty)))) && (item.x >= (target.x - width/(2*Math.sqrt(this.difficulty))));
+            let within_y = (item.y <= (target.y + height/(2*Math.sqrt(this.difficulty)))) && (item.y >= (target.y - height/(2*Math.sqrt(this.difficulty))));
+            console.log((target.x + width/(2*Math.sqrt(this.difficulty))), (target.x - width/(2*Math.sqrt(this.difficulty))), within_x);
+            console.log((target.y + height/(2*Math.sqrt(this.difficulty))), (target.y - height/(2*Math.sqrt(this.difficulty))), within_y);
+            if (!within_x||!within_y) return false;
         }
         return true;
     }

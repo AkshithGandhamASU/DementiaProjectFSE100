@@ -4,8 +4,7 @@ class MarioParty{
     originalOrder = [];     // Array to keep the correct order of this.items
     playerOrder = [];       // Array to store the shuffled order for the player
     images = [];            // Array to store item this.images
-    easyBackgroundImg;      // Background image for easy this.difficulty
-    hardBackgroundImg;      // Background image for hard this.difficulty
+    backgroundImg;      // Background image for easy this.difficulty
     currentBackground;      // Currently displayed background image
     revealed = true;        // Boolean to control whether this.items are this.revealed or hidden
     revealTime = 3000;      // Time in milliseconds for which the correct order is shown (3 seconds)
@@ -19,28 +18,20 @@ class MarioParty{
     started;
     finished;
 
-    constructor(easyBackgroundImg, hardBackgroundImg, images) {
+    constructor(backgroundImg, images) {
         this.images = images;
-        this.hardBackgroundImg = hardBackgroundImg;
-        this.easyBackgroundImg = easyBackgroundImg;
+        this.backgroundImg = backgroundImg;
         this.gameState = "menu";
         this.finished = false;
     }
 
     // Target positions for each this.difficulty setting
-    targetPositions = {
-        4: [
-            { x: 150, y: 150 },
-            { x: 300, y: 150 },
-            { x: 150, y: 300 },
-            { x: 300, y: 300 }
-        ],
-        9: [
-            { x: 100, y: 100 }, { x: 200, y: 100 }, { x: 300, y: 100 },
-            { x: 100, y: 200 }, { x: 200, y: 200 }, { x: 300, y: 200 },
-            { x: 100, y: 300 }, { x: 200, y: 300 }, { x: 300, y: 300 }
-        ]
-    };
+    targetPositions = [
+        { x: 150, y: 150 },
+        { x: 300, y: 150 },
+        { x: 150, y: 300 },
+        { x: 300, y: 300 }
+    ];
 
 
     setup() {
@@ -57,17 +48,24 @@ class MarioParty{
         this.originalOrder = [];       // Clear original order array
 
         // Set the correct background image based on this.difficulty
-        this.currentBackground = this.difficulty === 4 ? this.easyBackgroundImg : this.hardBackgroundImg;
+        this.currentBackground = this.backgroundImg;
+
+        let modifiers = [
+            {x: -1, y: -1},
+            {x: +1, y: -1},
+            {x: -1, y: +1},
+            {x: +1, y: +1},
+        ];
 
         // Initialize this.items and their positions based on this.difficulty
-        for (let i = 0; i < this.difficulty; i++) {
-            let target = this.targetPositions[this.difficulty][i]; // Get target position based on this.difficulty
+        for (let i = 0; i < 4; i++) {
+            let target = this.targetPositions[i]; // Get target position based on this.difficulty
             this.items.push({
-                id: i,               // Assign each item an ID for reference
+                id: i + (this.difficulty * 9),               // Assign each item an ID for reference
                 x: random(width - this.tileSize), // Start each item at a random x position
                 y: random(height - this.tileSize), // Start each item at a random y position
-                targetX: target.x,   // Target x position for item
-                targetY: target.y    // Target y position for item
+                targetX: target.x + ((this.tileSize/2) * modifiers[i].x),   // Target x position for item
+                targetY: target.y + ((this.tileSize/2) * modifiers[i].y)   // Target y position for item
             });
             this.originalOrder.push(i); // Store the correct order of item IDs
         }
@@ -80,7 +78,7 @@ class MarioParty{
             
             // Swap elements at index i and j
             [this.playerOrder[i], this.playerOrder[j]] = [this.playerOrder[j], this.playerOrder[i]];
-            [this.targetPositions[this.difficulty][i], this.targetPositions[this.difficulty][j]] = [this.targetPositions[this.difficulty][j], this.targetPositions[this.difficulty][i]];
+            [this.targetPositions[i], this.targetPositions[j]] = [this.targetPositions[j], this.targetPositions[i]];
 
         }
 
@@ -129,7 +127,7 @@ class MarioParty{
             // Check if "Easy" button was clicked
             if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100 &&
                 mouseY > height / 2 - 30 && mouseY < height / 2 + 20) {
-              this.difficulty = 4;       // Set this.difficulty to Easy
+              this.difficulty = 0;       // Set this.difficulty to Easy
               this.gameState = "play";   // Switch to game state
               this.initializeItems();    // Initialize this.items for easy this.difficulty
             }
@@ -137,7 +135,7 @@ class MarioParty{
             // Check if "Hard" button was clicked
             if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100 &&
                 mouseY > height / 2 + 40 && mouseY < height / 2 + 90) {
-              this.difficulty = 9;       // Set this.difficulty to Hard
+              this.difficulty = 1;       // Set this.difficulty to Hard
               this.gameState = "play";   // Switch to game state
               this.initializeItems();    // Initialize this.items for hard this.difficulty
             }
@@ -163,7 +161,7 @@ class MarioParty{
         background(200);          // Set background color
         
         // Draw the current background image on the canvas
-        image(this.currentBackground, 0, 0, width, height);
+        image(this.backgroundImg, 0, 0, width, height);
         
         // Display this.items on the screen based on whether they’re this.revealed or shuffled
         for (let i = 0; i < this.playerOrder.length; i++) {
@@ -217,13 +215,13 @@ class MarioParty{
         console.log("Checking result");
         for (let i = 0; i < this.playerOrder.length; i++) {
             let item = this.items[this.playerOrder[i]];
-            let target = this.targetPositions[this.difficulty][i];
+            let target = this.targetPositions[i];
             console.log("Item ", item.x, item.y);
             console.log(target);
-            let within_x = (item.x <= (target.x + width/(2*Math.sqrt(this.difficulty)))) && (item.x >= (target.x - width/(2*Math.sqrt(this.difficulty))));
-            let within_y = (item.y <= (target.y + height/(2*Math.sqrt(this.difficulty)))) && (item.y >= (target.y - height/(2*Math.sqrt(this.difficulty))));
-            console.log((target.x + width/(2*Math.sqrt(this.difficulty))), (target.x - width/(2*Math.sqrt(this.difficulty))), within_x);
-            console.log((target.y + height/(2*Math.sqrt(this.difficulty))), (target.y - height/(2*Math.sqrt(this.difficulty))), within_y);
+            let within_x = (item.x <= (target.x + width/(4))) && (item.x >= (target.x - width/(4)));
+            let within_y = (item.y <= (target.y + height/(4))) && (item.y >= (target.y - height/(4)));
+            console.log((target.x + width/(4)), (target.x - width/(4)), within_x);
+            console.log((target.y + height/(4)), (target.y - height/(4)), within_y);
             if (!within_x||!within_y) return false;
         }
         return true;

@@ -8,9 +8,9 @@ let quiting;
 let messymemory_backgrnd_img_hard;
 let messymemory_backgrnd_img_easy;
 let images = [];
-let easyBackgroundImg, hardBackgroundImg;
 let marioParty;
 let gameState;
+let backgroundImg;
 
 
 
@@ -42,8 +42,13 @@ function preload() {
     images.push(loadImage('assets/MessyMemory/mariopartyItem7.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem8.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem9.jpg'));
-    easyBackgroundImg = loadImage('assets/MessyMemory/e.jpg'); 
-    hardBackgroundImg = loadImage('assets/MessyMemory/h.jpg'); 
+    images.push(loadImage('assets/MessyMemory/woodplank2.jpg'));
+    images.push(loadImage('assets/MessyMemory/woodplank3.jpg'));
+    images.push(loadImage('assets/MessyMemory/woodplank4.jpg'));
+    images.push(loadImage('assets/MessyMemory/woodplank5.jpg'));
+    
+    backgroundImg = loadImage('assets/MessyMemory/e.jpg'); 
+     
 
 }
 
@@ -52,7 +57,7 @@ function setup() {
 
   quiting = false;
 
-  marioParty = new MarioParty(easyBackgroundImg, hardBackgroundImg, images);
+  marioParty = new MarioParty(backgroundImg, images);
 
   gameState = 0;
 
@@ -172,6 +177,14 @@ function draw() {
     }
     if(gameState == 2) {
         marioParty.draw();
+    }
+}
+
+function keyPressed() {
+    if(key === 'q') {
+        gameState = 0;
+        resizeCanvas(windowWidth, windowHeight);
+        back();
     }
 }
 

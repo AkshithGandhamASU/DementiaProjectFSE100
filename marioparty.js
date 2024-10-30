@@ -7,7 +7,7 @@ class MarioParty{
     backgroundImg;      // Background image for easy this.difficulty
     currentBackground;      // Currently displayed background image
     revealed = true;        // Boolean to control whether this.items are this.revealed or hidden
-    revealTime = 3000;      // Time in milliseconds for which the correct order is shown (3 seconds)
+    revealTime = 5000;      // Time in milliseconds for which the correct order is shown (3 seconds)
     tileSize = 80;          // Size for each item image
     selectedItem = null;    // Variable to store the currently selected item
 
@@ -84,7 +84,7 @@ class MarioParty{
 
         // Show this.items briefly before hiding
         this.revealed = true;
-        setTimeout(() => this.revealed = false, this.revealTime);
+        setTimeout(() => this.revealed = false, this.revealTime - (2000*this.difficulty));
     }
 
     draw() {

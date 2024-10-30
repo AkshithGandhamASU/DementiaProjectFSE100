@@ -1,15 +1,15 @@
 class MarioParty{
 
-    items = [];            
-    originalOrder = [];    
-    playerOrder = [];      
-    images = [];          
-    backgroundImg;  
-    currentBackground;    
-    revealed = true;        
-    revealTime = 3000;      
-    tileSize = 80;         
-    selectedItem = null;   
+    items = [];            // Array to store each item and its position
+    originalOrder = [];     // Array to keep the correct order of this.items
+    playerOrder = [];       // Array to store the shuffled order for the player
+    images = [];            // Array to store item this.images
+    backgroundImg;      // Background image for easy this.difficulty
+    currentBackground;      // Currently displayed background image
+    revealed = true;        // Boolean to control whether this.items are this.revealed or hidden
+    revealTime = 5000;      // Time in milliseconds for which the correct order is shown (3 seconds)
+    tileSize = 80;          // Size for each item image
+    selectedItem = null;    // Variable to store the currently selected item
 
     difficulty = 4;        
     gameState;
@@ -83,7 +83,7 @@ class MarioParty{
 
         
         this.revealed = true;
-        setTimeout(() => this.revealed = false, this.revealTime);
+        setTimeout(() => this.revealed = false, this.revealTime - (2000*this.difficulty));
     }
 
     draw() {

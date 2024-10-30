@@ -19,20 +19,11 @@ function preload() {
     background_img = [loadImage("assets/Panorama_0_JE2.jpg"), loadImage("assets/Panorama_1_JE1.jpg"), loadImage("assets/Panorama_2_JE1.jpg"), loadImage("assets/Panorama_3_JE1.jpg"), loadImage("assets/Panorama_4_JE1.jpg"), loadImage("assets/Panorama_5_JE1.jpg")];
     font = loadFont("assets/MinecraftRegular-Bmg3.otf");
     test_sound = loadSound("assets/creeper-explosion-sound-106759.mp3");
-    // messymemory_backgrnd_img_easy = loadImage("craftingTable_easy.jpg");
-    // messymemory_backgrnd_img_hard = loadImage("craftingTable_hard.jpg");
-
-    // let sng = new Song(null, 0, [1,0,0,1,0,1,0,0,1], 60);
-
-    // console.log(sng.distance_from_beat(180));
+   
 
     randomSeed(7519);
 
-    //   // Load item images
-    // for (let i = 0; i < 9; i++) { // Load up to 9 images for the harder difficulty
-    //     images.push(loadImage('assets/MessyMemory/mariopartyItem' + (i + 1) + '.jpg')); // Assumes images are named item1.jpg, item2.jpg, etc.
-    // }
-    // Load background images for easy and hard difficulties
+   
     images.push(loadImage('assets/MessyMemory/mariopartyItem1.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem2.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem3.jpg'));

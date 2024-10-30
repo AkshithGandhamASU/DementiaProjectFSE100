@@ -1,18 +1,17 @@
 class MarioParty{
 
-    items = [];            // Array to store each item and its position
-    originalOrder = [];     // Array to keep the correct order of this.items
-    playerOrder = [];       // Array to store the shuffled order for the player
-    images = [];            // Array to store item this.images
-    backgroundImg;      // Background image for easy this.difficulty
-    currentBackground;      // Currently displayed background image
-    revealed = true;        // Boolean to control whether this.items are this.revealed or hidden
-    revealTime = 3000;      // Time in milliseconds for which the correct order is shown (3 seconds)
-    tileSize = 80;          // Size for each item image
-    selectedItem = null;    // Variable to store the currently selected item
+    items = [];            
+    originalOrder = [];    
+    playerOrder = [];      
+    images = [];          
+    backgroundImg;  
+    currentBackground;    
+    revealed = true;        
+    revealTime = 3000;      
+    tileSize = 80;         
+    selectedItem = null;   
 
-    difficulty = 4;         // Default this.difficulty (4 this.items)
-
+    difficulty = 4;        
     gameState;
 
     started;
@@ -25,7 +24,7 @@ class MarioParty{
         this.finished = false;
     }
 
-    // Target positions for each this.difficulty setting
+   
     targetPositions = [
         { x: 150, y: 150 },
         { x: 300, y: 150 },
@@ -35,7 +34,7 @@ class MarioParty{
 
 
     setup() {
-        resizeCanvas(600, 600);   // Set the canvas size to match the background or as needed
+        resizeCanvas(600, 600);   
         textSize(32);
         textAlign(CENTER, CENTER);
         this.gameState = "menu";
@@ -44,10 +43,10 @@ class MarioParty{
     }
 
     initializeItems() {
-        this.items = [];               // Clear this.items array for fresh initialization
-        this.originalOrder = [];       // Clear original order array
+        this.items = [];              
+        this.originalOrder = [];       
 
-        // Set the correct background image based on this.difficulty
+        
         this.currentBackground = this.backgroundImg;
 
         let modifiers = [
@@ -57,32 +56,32 @@ class MarioParty{
             {x: +1, y: +1},
         ];
 
-        // Initialize this.items and their positions based on this.difficulty
+       
         for (let i = 0; i < 4; i++) {
-            let target = this.targetPositions[i]; // Get target position based on this.difficulty
+            let target = this.targetPositions[i]; 
             this.items.push({
-                id: i + (this.difficulty * 9),               // Assign each item an ID for reference
-                x: random(width - this.tileSize), // Start each item at a random x position
-                y: random(height - this.tileSize), // Start each item at a random y position
-                targetX: target.x + ((this.tileSize/2) * modifiers[i].x),   // Target x position for item
-                targetY: target.y + ((this.tileSize/2) * modifiers[i].y)   // Target y position for item
+                id: i + (this.difficulty * 9),              
+                x: random(width - this.tileSize), 
+                y: random(height - this.tileSize), 
+                targetX: target.x + ((this.tileSize/2) * modifiers[i].x),  
+                targetY: target.y + ((this.tileSize/2) * modifiers[i].y)   
             });
-            this.originalOrder.push(i); // Store the correct order of item IDs
+            this.originalOrder.push(i); 
         }
         
-        // Shuffle this.playerOrder for the memory test, to randomize item positions
+      
         this.playerOrder = ([...this.originalOrder]);
         for (let i = this.playerOrder.length - 1; i > 0; i--) {
-            // Generate a random index between 0 and i
+            
             const j = Math.floor(Math.random() * (i + 1));
             
-            // Swap elements at index i and j
+          
             [this.playerOrder[i], this.playerOrder[j]] = [this.playerOrder[j], this.playerOrder[i]];
             [this.targetPositions[i], this.targetPositions[j]] = [this.targetPositions[j], this.targetPositions[i]];
 
         }
 
-        // Show this.items briefly before hiding
+        
         this.revealed = true;
         setTimeout(() => this.revealed = false, this.revealTime);
     }
@@ -96,59 +95,58 @@ class MarioParty{
         console.log(this.gameState);
         
         if (this.gameState == "menu") {
-            this.drawMenu();             // Draw the start menu
+            this.drawMenu();            
         }
         else if (this.gameState == "play") {
-            this.drawGame();             // Draw the game
+            this.drawGame();             
         }
     }
 
     drawMenu() {
-        background(100, 150, 250); // Menu background color
+        background(100, 150, 250); 
         textSize(32);
         fill(255);
         text("Select difficulty", width / 2, height / 3);
 
-        // Draw buttons
+        
         textSize(24);
         fill(0, 200, 0);
-        rect(width / 2 - 100, height / 2 - 30, 200, 50, 10);  // Easy button
+        rect(width / 2 - 100, height / 2 - 30, 200, 50, 10);  
         fill(255);
         text("Easy", width / 2, height / 2 - 5);
 
         fill(200, 0, 0);
-        rect(width / 2 - 100, height / 2 + 40, 200, 50, 10);  // Hard button
-        fill(255);
+        rect(width / 2 - 100, height / 2 + 40, 200, 50, 10);  
         text("Hard", width / 2, height / 2 + 65);
     }
 
     mousePressed() {
         if (this.gameState == "menu") {
-            // Check if "Easy" button was clicked
+           
             if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100 &&
                 mouseY > height / 2 - 30 && mouseY < height / 2 + 20) {
-              this.difficulty = 0;       // Set this.difficulty to Easy
-              this.gameState = "play";   // Switch to game state
-              this.initializeItems();    // Initialize this.items for easy this.difficulty
+              this.difficulty = 0;      
+              this.gameState = "play";  
+              this.initializeItems();    
             }
 
-            // Check if "Hard" button was clicked
+
             if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100 &&
                 mouseY > height / 2 + 40 && mouseY < height / 2 + 90) {
-              this.difficulty = 1;       // Set this.difficulty to Hard
-              this.gameState = "play";   // Switch to game state
-              this.initializeItems();    // Initialize this.items for hard this.difficulty
+              this.difficulty = 1;       
+              this.gameState = "play";   
+              this.initializeItems();    
             }
         } else if (this.gameState == "play") {
-            // Check if an item has been clicked on (only active when this.items are hidden)
+            
             if (!this.revealed) {
             for (let i = 0; i < this.playerOrder.length; i++) {
-                let item = this.items[this.playerOrder[i]];   // Get each item in current player order
+                let item = this.items[this.playerOrder[i]];   
                 
-                // Check if mouse is within the item’s boundaries
+               
                 if (mouseX > item.x && mouseX < item.x + this.tileSize &&
                     mouseY > item.y && mouseY < item.y + this.tileSize) {
-                    this.selectedItem = i;  // Select the item to be dragged
+                    this.selectedItem = i;  
                     console.log(this.selectedItem);
                     break;
                 }
@@ -158,35 +156,34 @@ class MarioParty{
     }
 
     drawGame() {
-        background(200);          // Set background color
+        background(200);         
         
-        // Draw the current background image on the canvas
+      
         image(this.backgroundImg, 0, 0, width, height);
         
-        // Display this.items on the screen based on whether they’re this.revealed or shuffled
+        
         for (let i = 0; i < this.playerOrder.length; i++) {
-            let item = this.items[this.playerOrder[i]];   // Get item based on current player order
+            let item = this.items[this.playerOrder[i]];   
             
             if (this.revealed) {
-            // Display item this.images at their correct positions if this.revealed
+          
                 image(this.images[item.id], item.targetX, item.targetY, this.tileSize, this.tileSize);
             } else {
-            // Display item at current position, to be dragged and dropped
+           
                 image(this.images[item.id], item.x, item.y, this.tileSize, this.tileSize);
             }
         }
         
-        // Display instructions for the player
+       
         fill(0);
         textSize(16);
         if (this.revealed) {
-            text("Memorize the order!", width / 2, 50); // Instruction for memorization phase
+            text("Memorize the order!", width / 2, 50); 
         } else {
-            text("Drag items to rearrange", width / 2, 50); // Instruction for rearranging phase
+            text("Drag items to rearrange", width / 2, 50); 
         }
     }
 
-    // Drag and drop functionality
     mouseDragged() {
         if (!this.revealed && this.selectedItem !== null) {
             let item = this.items[this.playerOrder[this.selectedItem]];

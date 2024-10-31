@@ -1,15 +1,19 @@
 class AimTrainer {
     score;
+    missed;
     targets;
     level;
     started;
     gameState;
     last;
     target_image;
+    finished;
 
     constructor(target_image) {
        this.score = 0;
+       this.missed = 0;
        this.target_image = target_image;
+       this.finished = false;
     }
 
     start() {
@@ -22,6 +26,8 @@ class AimTrainer {
         ];
         this.started = false;
         this.last = second();
+        textSize(20);
+        // textAlign(C, TOP);
     }
 
     draw() {
@@ -41,6 +47,7 @@ class AimTrainer {
                 this.targets[i].r -= 0.0001;
                 if(this.targets[i].time <= 400) {
                     this.targets.splice(i, 1);
+                    this.missed++;
                 }
             }
 
@@ -52,12 +59,18 @@ class AimTrainer {
         }
     }
 
+    getFinished() {
+        return this.finished;
+    }
+
     drawGame() {
         resizeCanvas(800, 700);
         background(0);
         for(let i = 0; i < this.targets.length; i++) {
             image(this.target_image, this.targets[i].x, this.targets[i].y, this.targets[i].r, this.targets[i].r);
         }
+        text("Score: " + this.score, 20, 20);
+        text("Missed: " + this.missed, 20, 100);
     }
 
     drawMenu() {
@@ -81,8 +94,8 @@ class AimTrainer {
 
     checkBounds(target, x, y) {
         let within_x, within_y;
-        within_x = (x <= target.x + target.r) && (x >= target.x - target.r);
-        within_y = (y <= target.y + target.r) && (y >= target.y - target.r);
+        within_x = (x <= target.x + target.r/2) && (x >= target.x - target.r/2);
+        within_y = (y <= target.y + target.r/2) && (y >= target.y - target.r/2);
 
         return within_x && within_y;
     }
@@ -109,6 +122,7 @@ class AimTrainer {
                 let target = this.targets[i];
                 if(this.checkBounds(target, mouseX, mouseY)) {
                     this.targets.splice(i, 1);
+                    this.score++;
                 }
             }
         }

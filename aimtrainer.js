@@ -57,6 +57,12 @@ class AimTrainer {
                 this.last = second();
             }
         }
+        if(score >= 20){
+            this.gamestate = "Finished";
+            text("Missed: " + this.missed, width/2, height/2);
+            text("Score: " + this.score, width/2, height/2 - 100);
+            text("Press q to exit to main menu", width/2, height/2 - 200)
+        }
     }
 
     getFinished() {
@@ -90,7 +96,11 @@ class AimTrainer {
         rect(width / 2 - 100, height / 2 + 40, 200, 50, 10);  
         fill(255);
         text("Hard", width / 2, height / 2 + 65);
-    }
+
+                 
+    
+        }
+    
 
     checkBounds(target, x, y) {
         let within_x, within_y;

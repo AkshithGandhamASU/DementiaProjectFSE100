@@ -1,4 +1,4 @@
-class MarioParty{
+class MarioParty {
 
     items = [];            
     originalOrder = [];     
@@ -98,6 +98,7 @@ class MarioParty{
         }
         else if (this.gameState == "play") {
             this.drawGame();           
+        }
     }
 
     drawMenu() {
@@ -153,6 +154,7 @@ class MarioParty{
             }
         }
     }
+
 
     drawGame() {
         background(200);         

@@ -1,17 +1,17 @@
 class MarioParty{
 
-    items = [];           
+    items = [];            
     originalOrder = [];     
-    playerOrder = [];      
+    playerOrder = [];       
     images = [];           
     backgroundImg;      
     currentBackground;      
     revealed = true;        
-    revealTime = 5000;      
-    tileSize = 80;          
+    revealTime = 5000;     
+    tileSize = 80;       
     selectedItem = null;    
+    difficulty = 4;       
 
-    difficulty = 4;        
     gameState;
 
     started;
@@ -24,7 +24,7 @@ class MarioParty{
         this.finished = false;
     }
 
-   
+    
     targetPositions = [
         { x: 150, y: 150 },
         { x: 300, y: 150 },
@@ -34,7 +34,7 @@ class MarioParty{
 
 
     setup() {
-        resizeCanvas(600, 600);   
+        resizeCanvas(600, 600);  
         textSize(32);
         textAlign(CENTER, CENTER);
         this.gameState = "menu";
@@ -43,10 +43,9 @@ class MarioParty{
     }
 
     initializeItems() {
-        this.items = [];              
+        this.items = [];               
         this.originalOrder = [];       
-
-        
+       
         this.currentBackground = this.backgroundImg;
 
         let modifiers = [
@@ -69,19 +68,19 @@ class MarioParty{
             this.originalOrder.push(i); 
         }
         
-      
+       
         this.playerOrder = ([...this.originalOrder]);
         for (let i = this.playerOrder.length - 1; i > 0; i--) {
-            
+           
             const j = Math.floor(Math.random() * (i + 1));
             
-          
+         
             [this.playerOrder[i], this.playerOrder[j]] = [this.playerOrder[j], this.playerOrder[i]];
             [this.targetPositions[i], this.targetPositions[j]] = [this.targetPositions[j], this.targetPositions[i]];
 
         }
 
-        
+       
         this.revealed = true;
         setTimeout(() => this.revealed = false, this.revealTime - (2000*this.difficulty));
     }
@@ -95,20 +94,19 @@ class MarioParty{
         console.log(this.gameState);
         
         if (this.gameState == "menu") {
-            this.drawMenu();            
+            this.drawMenu();          
         }
         else if (this.gameState == "play") {
-            this.drawGame();             
-        }
+            this.drawGame();           
     }
 
     drawMenu() {
-        background(100, 150, 250); 
+        background(100, 150, 250);
         textSize(32);
         fill(255);
         text("Select difficulty", width / 2, height / 3);
 
-        
+       
         textSize(24);
         fill(0, 200, 0);
         rect(width / 2 - 100, height / 2 - 30, 200, 50, 10);  
@@ -117,20 +115,21 @@ class MarioParty{
 
         fill(200, 0, 0);
         rect(width / 2 - 100, height / 2 + 40, 200, 50, 10);  
+        fill(255);
         text("Hard", width / 2, height / 2 + 65);
     }
 
     mousePressed() {
         if (this.gameState == "menu") {
-           
+            
             if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100 &&
                 mouseY > height / 2 - 30 && mouseY < height / 2 + 20) {
-              this.difficulty = 0;      
-              this.gameState = "play";  
+              this.difficulty = 0;       
+              this.gameState = "play";   
               this.initializeItems();    
             }
 
-
+          
             if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100 &&
                 mouseY > height / 2 + 40 && mouseY < height / 2 + 90) {
               this.difficulty = 1;       
@@ -138,12 +137,12 @@ class MarioParty{
               this.initializeItems();    
             }
         } else if (this.gameState == "play") {
-            
+       
             if (!this.revealed) {
             for (let i = 0; i < this.playerOrder.length; i++) {
-                let item = this.items[this.playerOrder[i]];   
+                let item = this.items[this.playerOrder[i]]; 
                 
-               
+              
                 if (mouseX > item.x && mouseX < item.x + this.tileSize &&
                     mouseY > item.y && mouseY < item.y + this.tileSize) {
                     this.selectedItem = i;  
@@ -157,16 +156,15 @@ class MarioParty{
 
     drawGame() {
         background(200);         
-        
-      
+       
         image(this.backgroundImg, 0, 0, width, height);
         
         
         for (let i = 0; i < this.playerOrder.length; i++) {
-            let item = this.items[this.playerOrder[i]];   
+            let item = this.items[this.playerOrder[i]];  
             
             if (this.revealed) {
-          
+           
                 image(this.images[item.id], item.targetX, item.targetY, this.tileSize, this.tileSize);
             } else {
            
@@ -184,6 +182,7 @@ class MarioParty{
         }
     }
 
+   
     mouseDragged() {
         if (!this.revealed && this.selectedItem !== null) {
             let item = this.items[this.playerOrder[this.selectedItem]];

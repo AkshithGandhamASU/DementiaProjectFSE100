@@ -11,6 +11,9 @@ let images = [];
 let marioParty;
 let gameState;
 let backgroundImg;
+let aimTrainer;
+let targetImg;
+let bowImg;
 
 
 
@@ -21,7 +24,7 @@ function preload() {
     test_sound = loadSound("assets/creeper-explosion-sound-106759.mp3");
    
 
-    randomSeed(7519);
+    // randomSeed(7519);
 
    
     images.push(loadImage('assets/MessyMemory/mariopartyItem1.jpg'));
@@ -37,18 +40,26 @@ function preload() {
     images.push(loadImage('assets/MessyMemory/woodplank3.jpg'));
     images.push(loadImage('assets/MessyMemory/woodplank4.jpg'));
     images.push(loadImage('assets/MessyMemory/woodplank5.jpg'));
+
+    targetImg = (loadImage('assets/Aim Trainer/target_side.png'));
+    bowImg = (loadImage('assets/Aim Trainer/bow.png'));
+    // below is commented out in case we don't use the bow pulling animation
+    // image.push(loadImage('assets/Aim Trainer/bow_pulling_0.png'));
+    // image.push(loadImage('assets/Aim Trainer/bow_pulling_1.png'));
+    // image.push(loadImage('assets/Aim Trainer/bow_pulling_2.png'));
+  
     
     backgroundImg = loadImage('assets/MessyMemory/e.jpg'); 
-     
-
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  frameRate(60);
 
   quiting = false;
 
   marioParty = new MarioParty(backgroundImg, images);
+  aimTrainer = new AimTrainer(targetImg);
 
   gameState = 0;
 
@@ -94,6 +105,7 @@ function setup() {
   buttons[3].mousePressed(testSound);
   buttons[4].mousePressed(back);
   buttons[6].mousePressed(messymemory)
+  buttons[7].mousePressed(aimtrainer)
 }
 
 function messymemory() {
@@ -109,15 +121,28 @@ function messymemory() {
   buttons[7].hide();
 }
 
+function aimtrainer() {
+    gameState = 3;
+    
+    aimTrainer.start();
+    
+    
+    buttons[3].hide();
+    buttons[4].hide();
+    buttons[5].hide();
+    buttons[6].hide();
+    buttons[7].hide();
+  }
+
 function gameSelect() {
     buttons[0].hide();
     buttons[1].hide();
     buttons[2].hide();
   
+    buttons[4].show();
     buttons[5].show();
     buttons[6].show();
     buttons[7].show();
-    buttons[4].show();
 }
 
 function options() {
@@ -151,24 +176,38 @@ function back() {
 
 function draw() {
     if(marioParty.getFinished()) {
-        console.log("GameState ", gameState);
+        // console.log("GameState ", gameState);
         gameState = 0;
         resizeCanvas(windowWidth, windowHeight);
         back();
     }
-    if(gameState == 0) {
-        noStroke();
-        
-        background(background_img[round(millis() / 2000) % 6]);
-        
-        image(game_title_img, 150, 50);
-        
-        if(quiting)
-            noLoop();
-    }
-    if(gameState == 2) {
-        marioParty.draw();
-    }
+    // else if(aimTrainer.getFinished()) {
+    //     console.log("GameState ", gameState);
+    //     gameState = 0;
+    //     resizeCanvas(windowWidth, windowHeight);
+    //     back();
+    // }
+
+    // console.log(gameState);
+    
+    // switch(gameState) {
+        if(gameState == 0) {
+            noStroke();
+            
+            background(background_img[round(millis() / 2000) % 6]);
+            
+            image(game_title_img, 150, 50);
+            
+            if(quiting)
+                noLoop();
+        }
+        else if(gameState == 2) {
+            marioParty.draw();
+        }
+        else if(gameState == 3) {
+            aimTrainer.draw();
+        }
+    // }
 }
 
 function keyPressed() {
@@ -183,16 +222,25 @@ function mousePressed() {
     if(gameState == 2) {
         marioParty.mousePressed();
     }
+    else if(gameState == 3) {
+        aimTrainer.mousePressed();
+    }
 }
 
 function mouseDragged() {
     if(gameState == 2) {
       marioParty.mouseDragged();
     }
+    // else if(gameState == 3) {
+    //     aimTrainer.mouseDragged();
+    // }
 }
 
 function mouseReleased() {
     if(gameState == 2) {
       marioParty.mouseReleased();
     }
+    // else if(gameState == 3) {
+    //     aimTrainer.mouseReleased();
+    // }
 }

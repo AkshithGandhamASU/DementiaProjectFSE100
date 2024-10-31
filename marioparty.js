@@ -38,7 +38,7 @@ class MarioParty {
         textSize(32);
         textAlign(CENTER, CENTER);
         this.gameState = "menu";
-        console.log("setup" + this.gameState);
+        // console.log("setup" + this.gameState);
         this.started = true;
     }
 
@@ -91,7 +91,7 @@ class MarioParty {
             this.started = false;
         }
         
-        console.log(this.gameState);
+        // console.log(this.gameState);
         
         if (this.gameState == "menu") {
             this.drawMenu();          
@@ -147,7 +147,7 @@ class MarioParty {
                 if (mouseX > item.x && mouseX < item.x + this.tileSize &&
                     mouseY > item.y && mouseY < item.y + this.tileSize) {
                     this.selectedItem = i;  
-                    console.log(this.selectedItem);
+                    // console.log(this.selectedItem);
                     break;
                 }
             }

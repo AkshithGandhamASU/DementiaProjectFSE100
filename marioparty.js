@@ -1,3 +1,9 @@
+//Akshith Gandham
+//Alex Myers
+//Eric Chen
+//Leo Bryant
+//Gavin Roth
+
 class MarioParty {
 
     items = [];            

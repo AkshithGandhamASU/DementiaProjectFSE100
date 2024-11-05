@@ -1,3 +1,9 @@
+//Akshith Gandham
+//Alex Myers
+//Eric Chen
+//Leo Bryant
+//Gavin Roth
+
 let buttons;
 let background_img;
 let game_title_img;

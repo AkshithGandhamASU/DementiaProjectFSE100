@@ -1,5 +1,11 @@
-//blocks, 110.01 : 1.8335 bps
+//Akshith Gandham
+//Alex Myers
+//Eric Chen
+//Leo Bryant
+//Gavin Roth
+
 //pigstep, 85.00 : 1.4167 bps
+//blocks, 110.01 : 1.8335 bps
 
 class Song {
     #beat;

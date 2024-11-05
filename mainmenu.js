@@ -67,6 +67,7 @@ function setup() {
 
   marioParty = new MarioParty(backgroundImg, images);
   aimTrainer = new AimTrainer(targetImg);
+  
 
   gameState = 0;
 

@@ -4,95 +4,117 @@
 //Leo Bryant
 //Gavin Roth
 
-//pigstep, 85.00 : 1.4167 bps
-//blocks, 110.01 : 1.8335 bps
+class DDR {
+    level;
+    state;
+    backgrndImg;
+    arrowImg;
+    score;
+    missed;
+    arrows;
+    gameState;
 
-class Song {
-    #beat;
-    #bpm;
-    #audio;
-    #health;
-    #combo;
-    #last_beat_index;
-
-    constructor(sound, beat, bpm) {
-        this.audio = sound;
-        this.health = 10;
-        this.beat = beat;
-        this.bpm = bpm;
-        this.last_beat_index = 0;
+    
+    constructor(arrowImg) {  
+        this.score = 0;
+        this.missed = 0;
+        this.arrowImg = arrowImg;
+        this.state = -1;
+        this.arrows = [];
     }
-
-    get_audio() {
-        return this.audio;
-    }
-
-    distance_from_beat(time) {
-        let beat_index = Math.round(time/this.bpm) - 1;
-        let i = this.last_beat_index;
-        let distances = [];
-        while(distances.length < 2) {
-            // console.log("while loop");
-            if(this.beat[i] == 1) {
-                distances.push(Math.abs(beat_index - i));
-                this.last_beat_index = i;
-                console.log("if1");
-                if( i < beat_index) {
-                    console.log("if2");
-                    i = beat_index;
-                }
-                continue;
-            }
-            i++;
+    
+    // diagonal length of every pickaxe png is 226.27417 (except the clearPick; that one is 130x130, 180.8477631 diagonal)
+    start() {
+        resizeCanvas(800, 800)
+        
+        for(i of this.level) {
+            this.arrows.push(random(500, 1500));
         }
 
-        return Math.min(distances[0], distances[1]);
-    }
-}
-
-
-class DDR {
-    #song;
-    #bpm;
-    #time_start;
-
-    #speed;
-
-    directions;
-
-    constructor(song_f, bpm) {
-        this.song = new Song(song_f, beat1, bpm);
-        this.bpm = bpm;
-        this.time_start = millis();
-
-        this.speed = 500 / (bpm/60);
-
-        this.directions = ['l', 'r', 'u', 'd', 'n'];
+        this.state = 0;
     }
 
-    next_song(song_f, bpm) {
-        this.song = new Song(song_f, beat1, bpm);
-        this.bpm = bpm;
-        this.time_start = millis();
+    
+    draw() {
+        if(!this.state < 0) {
+            this.gameState = "menu";
+        }
+        if (this.gameState == "menu") {
+            this.drawMenu();          
+        }
+        else if (this.gameState == "play") {
+            this.drawGame();
+        }
+        else if (this.gameState == "finished") {
+            //
+        }
+        
+    }
+    
+    drawMenu() {
+        background(100, 150, 250);
+        textSize(32);
+        fill(255);
+        text("Select difficulty", width / 2, height / 3);
 
-        this.speed = 500 / (bpm/60);
+       
+        textSize(24);
+        fill(0, 200, 0);
+        rect(width / 2 - 100, height / 2 - 30, 200, 50, 10);  
+        fill(255);
+        text("Easy", width / 2, height / 2 - 5);
+
+        fill(200, 0, 0);
+        rect(width / 2 - 100, height / 2 + 40, 200, 50, 10);  
+        fill(255);
+        text("Hard", width / 2, height / 2 + 65);
     }
 
-    move_arrows() {
-
-    }
-
-    #spawn_arrow(direction) {
+    drawGame() {
         
     }
 
-    update() {
-        if((millis() - this.time_start) % (bpm/60/100) == 0) {
-            this.#spawn_arrow(directions(random(0, 4)));
+    getFinished() {
+        
+    }
+
+    // taken from aimtrainer.js  --  bounds should be checked in the keypress functions when pickaxes are within a certain range
+    checkBounds(target, x, y) {
+        let within_x, within_y;
+        //within_x = (x <= target.x + target.r/2) && (x >= target.x - target.r/2);
+       // within_y = (y <= target.y + target.r/2) && (y >= target.y - target.r/2);
+
+        return within_x && within_y;
+    }
+
+    keyPressed() {
+        if(this.level == 1) {
+            distance();
+            return;
+        }
+        switch(key) {
+            case(LEFT_ARROW): {
+                
+                break;
+            }
+            case(RIGHT_ARROW): {
+                break;
+            }
+            case(UP_ARROW): {
+                break;
+            }
+            case(DOWN_ARROW): {
+                break;
+            }
         }
     }
+    
+    /* 
+        key is pressed -> bounds between moving pickaxe image and static pickage image is checked
+        score is incremented if the key press is within the bound
+        missed variable is incremented if the key press is after the bound
+        nothing should be incremented if a key is pressed before the bound
+    */
 
-    display() {
-
-    }
+    
 }

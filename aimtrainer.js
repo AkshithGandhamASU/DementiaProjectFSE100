@@ -46,6 +46,7 @@ class AimTrainer {
         if (this.gameState == "menu") {
             this.drawMenu();          
         }
+        
         else if (this.gameState == "play") {
             this.drawGame();
             for(let i = 0; i < this.targets.length; i++) {
@@ -63,8 +64,9 @@ class AimTrainer {
                 this.last = second();
             }
         }
-        if(this.score >= 20){
-            this.gamestate = "Finished";
+        
+        if(this.score == 20){
+            this.gameState = "Finished";
             text("Missed: " + this.missed, width/2, height/2);
             text("Score: " + this.score, width/2, height/2 - 100);
             text("Press q to exit to main menu", width/2, height/2 - 200)

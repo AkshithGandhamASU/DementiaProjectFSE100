@@ -189,7 +189,7 @@ function draw() {
         back();
     }
     else if(aimTrainer.getFinished()) {
-        console.log("GameState ", gameState);
+        // console.log("GameState ", gameState);
         gameState = 0;
         resizeCanvas(windowWidth, windowHeight);
         back();

@@ -63,7 +63,7 @@ class AimTrainer {
                 this.last = second();
             }
         }
-        if(score >= 20){
+        if(this.score >= 20){
             this.gamestate = "Finished";
             text("Missed: " + this.missed, width/2, height/2);
             text("Score: " + this.score, width/2, height/2 - 100);

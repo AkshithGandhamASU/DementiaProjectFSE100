@@ -20,6 +20,7 @@ let backgroundImg;
 let aimTrainer;
 let targetImg;
 let bowImg;
+let arrowImg;
 
 
 
@@ -49,6 +50,7 @@ function preload() {
 
     targetImg = (loadImage('assets/Aim Trainer/target_side.png'));
     bowImg = (loadImage('assets/Aim Trainer/bow.png'));
+    arrowImg = (loadImage('assets/DDR/Pickaxes/stonePick.png'));
     // below is commented out in case we don't use the bow pulling animation
     // image.push(loadImage('assets/Aim Trainer/bow_pulling_0.png'));
     // image.push(loadImage('assets/Aim Trainer/bow_pulling_1.png'));
@@ -67,6 +69,7 @@ function setup() {
 
   marioParty = new MarioParty(backgroundImg, images);
   aimTrainer = new AimTrainer(targetImg);
+  ddr  = new DDR(arrowImg);
   
 
   gameState = 0;
@@ -112,8 +115,20 @@ function setup() {
   buttons[2].mousePressed(quit);
   buttons[3].mousePressed(testSound);
   buttons[4].mousePressed(back);
+  buttons[5].mousePressed(ddrFunc);
   buttons[6].mousePressed(messymemory)
   buttons[7].mousePressed(aimtrainer)
+}
+function ddrFunc() {
+    gameState = 1;
+    
+    ddr.setup();
+
+    buttons[3].hide();
+    buttons[4].hide();
+    buttons[5].hide();
+    buttons[6].hide();
+    buttons[7].hide();
 }
 
 function messymemory() {
@@ -215,6 +230,9 @@ function draw() {
         else if(gameState == 3) {
             aimTrainer.draw();
         }
+        else if(gameState == 1) {
+            ddr.draw();
+        }
     // }
 }
 
@@ -232,6 +250,9 @@ function mousePressed() {
     }
     else if(gameState == 3) {
         aimTrainer.mousePressed();
+    }
+    else if(gameState == 1) {
+        ddr.mousePressed();
     }
 }
 

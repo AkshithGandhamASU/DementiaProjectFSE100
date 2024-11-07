@@ -4,6 +4,9 @@
 //Leo Bryant
 //Gavin Roth
 
+// 129X172
+// 127X166
+
 class DDR {
     level;
     state;
@@ -16,12 +19,14 @@ class DDR {
     arrowSpeed;
     spawnInterval;
     frameCounter;
+    next_time;
+    prev_time;
 
     
-    constructor(arrowImg) {  
+    constructor(arrowImgs) {  
         this.score = 0;
         this.missed = 0;
-        this.arrowImg = arrowImg;
+        this.arrowImgs = arrowImgs;
         this.state = -10;
         this.arrows = [];
         this.arrowSpeed = 4;
@@ -30,15 +35,15 @@ class DDR {
     }
 
     setup() {
+        resizeCanvas(700, 700);
         this.state = -1;
         this.gameState = "menu";
     }
     
     // diagonal length of every pickaxe png is 226.27417 (except the clearPick; that one is 130x130, 180.8477631 diagonal)
-    start() {
-        resizeCanvas(800, 800)
-        
-        this.arrows.push({time: 1500, y: height});
+    start() {        
+        this.spawnArrow();
+        imageMode(CENTER);
 
         this.state = 0;
     }
@@ -82,11 +87,21 @@ class DDR {
     drawGame() {
         background(0);
         fill(0, 255, 255);
+        for(let i = 0; i < this.level; i++){
+            // console.log(i);
+            image(this.arrowImgs[i + 4], (width/(this.level+1)) * (i + 1), 100, 50, 66);
+        }
+
+        fill(0, 0, 255);
         for(let arrow of this.arrows) {
-            circle(width/2, arrow.y, 50);
-            console.log(arrow);
+            circle(arrow.x, arrow.y, 50);
+            // console.log(arrow);
         }
         this.update();
+        fill(255);
+        textSize(20);
+        text("Score: " + this.score, width / 4, 30);
+        text("Missed: " + this.missed, (3 * width) / 4, 30);
     }
 
     update() {
@@ -96,17 +111,21 @@ class DDR {
             this.arrows[i].y = height - ((-(height/1500)*this.arrows[i].time) + (height));
             if(this.arrows[i].y <= 0 || this.arrows[i].time <= 0) {
                 this.arrows.splice(i, 1);
+                this.missed++;
             }
         }
+            
+        // console.log(millis() - this.prev_time, this.prev_time, this.next_time);
 
-        if(random(10000) % 90 == 0) {
+        if(Math.round(millis() - this.prev_time) >= Math.round(this.next_time)) {
             this.spawnArrow();
         }
     }
 
     spawnArrow() {
-        this.arrows.push({time: 1500, y: height+226.27417});
-        
+        this.arrows.push({time: 1500, x:(width/(this.level+1)) * Math.round(random(1, this.level + 0.1)), y: height+226.27417});
+        this.prev_time = millis();
+        this.next_time = random(500, 1500);
     }
 
     getFinished() {
@@ -145,26 +164,71 @@ class DDR {
         }
     }
 
-    keyPressed() {
+    distance() {
+        return Math.sqrt(Math.pow(this.arrows[0].y - 100, 2));
+    }
+
+    keyPressed(key) {
+        console.log(key, LEFT_ARROW);
         if(this.level == 1) {
-            distance();
+            // console.log("ressed");
+            if(this.distance() < 25){
+                this.score += 1;
+                console.log(this.score);
+                this.arrows.splice(0, 1);
+            }
+            else {
+                this.missed += 1;
+                this.arrows.splice(0, 1);
+            }
             return;
         }
-        switch(key) {
-            case(LEFT_ARROW): {
-                
-                break;
+        // switch(key) {
+            if(key == "ArrowLeft") {
+                // console.log(this.arrows[0].x, (width/5));
+                if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (1))){
+                    this.score += 1;
+                    this.arrows.splice(0, 1);
+                }
+                else {
+                    this.missed += 1;
+                    this.arrows.splice(0, 1);
+                }
             }
-            case(RIGHT_ARROW): {
-                break;
+            else if(key == "ArrowRight") {
+                // console.log(this.arrows[0].x, (width/5) * 4)
+                if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (4))){
+                    this.score += 1;
+                    this.arrows.splice(0, 1);
+                }
+                else {
+                    this.missed += 1;
+                    this.arrows.splice(0, 1);
+                }
             }
-            case(UP_ARROW): {
-                break;
+            else if(key == "ArrowUp") {
+                // console.log(this.arrows[0].x, (width/5) * 3)
+                if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (3))){
+                    this.score += 1;
+                    this.arrows.splice(0, 1);
+                }
+                else {
+                    this.missed += 1;
+                    this.arrows.splice(0, 1);
+                }
             }
-            case(DOWN_ARROW): {
-                break;
+            else if(key == "ArrowDown") {
+                // console.log(this.arrows[0].x, (width/5) * 2)
+                if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (2))){
+                    this.score += 1;
+                    this.arrows.splice(0, 1);
+                }
+                else {
+                    this.missed += 1;
+                    this.arrows.splice(0, 1);
+                }
             }
-        }
+        // }
     }
     
     /* 

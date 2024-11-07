@@ -20,7 +20,7 @@ let backgroundImg;
 let aimTrainer;
 let targetImg;
 let bowImg;
-let arrowImg;
+let arrowImgs = [];
 
 
 
@@ -50,7 +50,14 @@ function preload() {
 
     targetImg = (loadImage('assets/Aim Trainer/target_side.png'));
     bowImg = (loadImage('assets/Aim Trainer/bow.png'));
-    arrowImg = (loadImage('assets/DDR/Pickaxes/stonePick.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickUp.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickDown.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickLeft.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickRight.png'));
+    arrowImgs.push(loadImage('assets/DDR/clearPickLeft.png'));
+    arrowImgs.push(loadImage('assets/DDR/clearPickDown.png'));
+    arrowImgs.push(loadImage('assets/DDR/clearPickUp.png'));
+    arrowImgs.push(loadImage('assets/DDR/clearPickRight.png'));
     // below is commented out in case we don't use the bow pulling animation
     // image.push(loadImage('assets/Aim Trainer/bow_pulling_0.png'));
     // image.push(loadImage('assets/Aim Trainer/bow_pulling_1.png'));
@@ -69,7 +76,7 @@ function setup() {
 
   marioParty = new MarioParty(backgroundImg, images);
   aimTrainer = new AimTrainer(targetImg);
-  ddr  = new DDR(arrowImg);
+  ddr  = new DDR(arrowImgs);
   
 
   gameState = 0;
@@ -241,6 +248,9 @@ function keyPressed() {
         gameState = 0;
         resizeCanvas(windowWidth, windowHeight);
         back();
+    }
+    if(gameState == 1) {
+        ddr.keyPressed(key);
     }
 }
 

@@ -29,6 +29,7 @@ function preload() {
     background_img = [loadImage("assets/Panorama_0_JE2.jpg"), loadImage("assets/Panorama_1_JE1.jpg"), loadImage("assets/Panorama_2_JE1.jpg"), loadImage("assets/Panorama_3_JE1.jpg"), loadImage("assets/Panorama_4_JE1.jpg"), loadImage("assets/Panorama_5_JE1.jpg")];
     font = loadFont("assets/MinecraftRegular-Bmg3.otf");
     test_sound = loadSound("assets/creeper-explosion-sound-106759.mp3");
+    completion_sound = loadSound("assets/DDR/levelup.mp3");
    
 
     // randomSeed(7519);

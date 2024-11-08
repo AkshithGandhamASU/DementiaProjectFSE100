@@ -33,11 +33,17 @@ class DDR {
         this.spawnInterval = 60;
         this.frameCounter = 0;
     }
+    
+
+    
+
+    
 
     setup() {
         resizeCanvas(700, 700);
         this.state = -1;
         this.gameState = "menu";
+         
     }
     
     // diagonal length of every pickaxe png is 226.27417 (except the clearPick; that one is 130x130, 180.8477631 diagonal)
@@ -62,7 +68,17 @@ class DDR {
         else if (this.gameState == "finished") {
             //
         }
-        
+
+        if(this.score == 30){
+            this.gameState = "Finished";
+            background('rgb(0,185,0)');
+            text("Missed: " + this.missed, width/2, height/2);
+            text("Score: " + this.score, width/2, height/2 - 100);
+            text("Press q to exit to main menu", width/2, height/2 - 200);
+            if((!completion_sound.isPlaying()) && (!completion_sound.hasPlayed)){
+                completion_sound.play();
+            }
+        }
     }
     
     drawMenu() {
@@ -94,6 +110,7 @@ class DDR {
 
         fill(0, 0, 255);
         for(let arrow of this.arrows) {
+            // image(this.arrowImgs[arrow.x, arrow.y, 50]);        //loading diamond pickaxe images to scroll up
             circle(arrow.x, arrow.y, 50);
             // console.log(arrow);
         }

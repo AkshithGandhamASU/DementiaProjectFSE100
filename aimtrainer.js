@@ -68,9 +68,13 @@ class AimTrainer {
         
         if(this.score == 20){
             this.gameState = "Finished";
+            background('rgb(0,185,0)');
             text("Missed: " + this.missed, width/2, height/2);
             text("Score: " + this.score, width/2, height/2 - 100);
             text("Press q to exit to main menu", width/2, height/2 - 200)
+            if((!completion_sound.isPlaying()) && (!completion_sound.hasPlayed)){
+                completion_sound.play();
+            }
         }
     }
 

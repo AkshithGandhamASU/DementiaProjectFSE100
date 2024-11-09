@@ -22,12 +22,14 @@ class MarioParty {
 
     started;
     finished;
+    timeStarted;
 
     constructor(backgroundImg, images) {
         this.images = images;
         this.backgroundImg = backgroundImg;
         this.gameState = "menu";
         this.finished = false;
+        this.timeStarted = millis();
     }
 
     
@@ -183,11 +185,22 @@ class MarioParty {
        
         fill(0);
         textSize(16);
-        if (this.revealed) {
+        if(this.finished) {
+            this.gameState = "Finished";
+            background('rgb(0,185,0)');
+            text("Time: " + (millis() - this.timeStarted)/1000 + "s", width/2, height/2);
+            text("Press q to exit to main menu", width/2, height/2 - 200)
+            if((!completion_sound.isPlaying()) && (!completion_sound.hasPlayed)){
+                completion_sound.play();
+            }
+        }
+
+        if (this.revealed && !this.finished) {
             text("Memorize the order!", width / 2, 50); 
-        } else {
+        } else if (!this.revealed && !this.finished) {
             text("Drag items to rearrange", width / 2, 50); 
         }
+
     }
 
    
@@ -228,6 +241,7 @@ class MarioParty {
             console.log((target.y + height/(4)), (target.y - height/(4)), within_y);
             if (!within_x||!within_y) return false;
         }
+        this.finished = true;
         return true;
     }
 

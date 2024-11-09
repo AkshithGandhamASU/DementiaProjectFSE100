@@ -103,15 +103,16 @@ class DDR {
     drawGame() {
         background(0);
         fill(0, 255, 255);
+        let arr = [[66, 50], [50, 66], [50, 66],[66, 50]]
         for(let i = 0; i < this.level; i++){
             // console.log(i);
-            image(this.arrowImgs[i + 4], (width/(this.level+1)) * (i + 1), 100, 50, 66);
+            image(this.arrowImgs[i + 4], (width/(this.level+1)) * (i + 1), 100, arr[i][0], arr[i][1]);
         }
 
         fill(0, 0, 255);
         for(let arrow of this.arrows) {
-            // image(this.arrowImgs[arrow.x, arrow.y, 50]);        //loading diamond pickaxe images to scroll up
-            circle(arrow.x, arrow.y, 50);
+            image(this.arrowImgs[arrow.num],arrow.x, arrow.y, arr[arrow.num][0], arr[arrow.num][1]);        //loading diamond pickaxe images to scroll up
+            // circle(arrow.x, arrow.y, 50);
             // console.log(arrow);
         }
         this.update();
@@ -140,7 +141,9 @@ class DDR {
     }
 
     spawnArrow() {
-        this.arrows.push({time: 1500, x:(width/(this.level+1)) * Math.round(random(1, this.level + 0.1)), y: height+226.27417});
+        let index = Math.round(random(1, this.level + 0.1));
+        let x_coord = (width/(this.level+1)) * index;
+        this.arrows.push({time: 1500, x:x_coord, y: height+226.27417, num: index - 1 });
         this.prev_time = millis();
         this.next_time = random(500, 1500);
     }
@@ -186,7 +189,13 @@ class DDR {
     }
 
     keyPressed(key) {
-        console.log(key, LEFT_ARROW);
+        // console.log("resizing");
+
+        if(key == 'q') {
+            console.log("resizing");
+            resizeCanvas(1000, 500);
+        }
+
         if(this.level == 1) {
             // console.log("ressed");
             if(this.distance() < 25){
@@ -200,6 +209,7 @@ class DDR {
             }
             return;
         }
+    
         // switch(key) {
             if(key == "ArrowLeft") {
                 // console.log(this.arrows[0].x, (width/5));

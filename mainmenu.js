@@ -51,9 +51,9 @@ function preload() {
 
     targetImg = (loadImage('assets/Aim Trainer/target_side.png'));
     bowImg = (loadImage('assets/Aim Trainer/bow.png'));
-    arrowImgs.push(loadImage('assets/DDR/diamondPickUp.png'));
-    arrowImgs.push(loadImage('assets/DDR/diamondPickDown.png'));
     arrowImgs.push(loadImage('assets/DDR/diamondPickLeft.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickDown.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickUp.png'));
     arrowImgs.push(loadImage('assets/DDR/diamondPickRight.png'));
     arrowImgs.push(loadImage('assets/DDR/clearPickLeft.png'));
     arrowImgs.push(loadImage('assets/DDR/clearPickDown.png'));
@@ -206,18 +206,18 @@ function back() {
 }
 
 function draw() {
-    if(marioParty.getFinished()) {
-        // console.log("GameState ", gameState);
-        gameState = 0;
-        resizeCanvas(windowWidth, windowHeight);
-        back();
-    }
-    else if(aimTrainer.getFinished()) {
-        // console.log("GameState ", gameState);
-        gameState = 0;
-        resizeCanvas(windowWidth, windowHeight);
-        back();
-    }
+        if(ddr.getFinished()) {
+            // console.log("GameState ", gameState);
+            gameState = 0;
+            resizeCanvas(windowWidth, windowHeight);
+            back();
+        }
+        else if(aimTrainer.getFinished()) {
+            // console.log("GameState ", gameState);
+            gameState = 0;
+            resizeCanvas(windowWidth, windowHeight);
+            back();
+        }
 
     // console.log(gameState);
     
@@ -250,6 +250,7 @@ function keyPressed() {
         resizeCanvas(windowWidth, windowHeight);
         back();
     }
+    
     if(gameState == 1) {
         ddr.keyPressed(key);
     }

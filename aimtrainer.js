@@ -111,7 +111,7 @@ class AimTrainer {
 
                  
     
-        }
+    }
     
 
     checkBounds(target, x, y) {

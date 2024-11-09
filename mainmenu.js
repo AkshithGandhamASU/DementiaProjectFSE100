@@ -19,7 +19,6 @@ let gameState;
 let backgroundImg;
 let aimTrainer;
 let targetImg;
-let bowImg;
 let arrowImgs = [];
 
 
@@ -39,18 +38,12 @@ function preload() {
     images.push(loadImage('assets/MessyMemory/mariopartyItem2.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem3.jpg'));
     images.push(loadImage('assets/MessyMemory/mariopartyItem4.jpg'));
-    images.push(loadImage('assets/MessyMemory/mariopartyItem5.jpg'));
-    images.push(loadImage('assets/MessyMemory/mariopartyItem6.jpg'));
-    images.push(loadImage('assets/MessyMemory/mariopartyItem7.jpg'));
-    images.push(loadImage('assets/MessyMemory/mariopartyItem8.jpg'));
-    images.push(loadImage('assets/MessyMemory/mariopartyItem9.jpg'));
     images.push(loadImage('assets/MessyMemory/woodplank2.jpg'));
     images.push(loadImage('assets/MessyMemory/woodplank3.jpg'));
     images.push(loadImage('assets/MessyMemory/woodplank4.jpg'));
     images.push(loadImage('assets/MessyMemory/woodplank5.jpg'));
 
     targetImg = (loadImage('assets/Aim Trainer/target_side.png'));
-    bowImg = (loadImage('assets/Aim Trainer/bow.png'));
     arrowImgs.push(loadImage('assets/DDR/diamondPickLeft.png'));
     arrowImgs.push(loadImage('assets/DDR/diamondPickDown.png'));
     arrowImgs.push(loadImage('assets/DDR/diamondPickUp.png'));

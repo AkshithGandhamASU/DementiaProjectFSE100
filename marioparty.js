@@ -67,7 +67,7 @@ class MarioParty {
         for (let i = 0; i < 4; i++) {
             let target = this.targetPositions[i]; 
             this.items.push({
-                id: i + (this.difficulty * 9),              
+                id: i + (this.difficulty * 4),              
                 x: random(width - this.tileSize), 
                 y: random(height - this.tileSize), 
                 targetX: target.x + ((this.tileSize/2) * modifiers[i].x),  

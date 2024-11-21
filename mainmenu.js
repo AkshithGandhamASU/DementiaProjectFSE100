@@ -20,7 +20,7 @@ let backgroundImg;
 let aimTrainer;
 let targetImg;
 let bowImg;
-let arrowImg;
+let arrowImgs = [];
 
 
 
@@ -29,6 +29,7 @@ function preload() {
     background_img = [loadImage("assets/Panorama_0_JE2.jpg"), loadImage("assets/Panorama_1_JE1.jpg"), loadImage("assets/Panorama_2_JE1.jpg"), loadImage("assets/Panorama_3_JE1.jpg"), loadImage("assets/Panorama_4_JE1.jpg"), loadImage("assets/Panorama_5_JE1.jpg")];
     font = loadFont("assets/MinecraftRegular-Bmg3.otf");
     test_sound = loadSound("assets/creeper-explosion-sound-106759.mp3");
+    completion_sound = loadSound("assets/DDR/levelup.mp3");
    
 
     // randomSeed(7519);
@@ -50,7 +51,14 @@ function preload() {
 
     targetImg = (loadImage('assets/Aim Trainer/target_side.png'));
     bowImg = (loadImage('assets/Aim Trainer/bow.png'));
-    arrowImg = (loadImage('assets/DDR/Pickaxes/stonePick.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickLeft.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickDown.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickUp.png'));
+    arrowImgs.push(loadImage('assets/DDR/diamondPickRight.png'));
+    arrowImgs.push(loadImage('assets/DDR/clearPickLeft.png'));
+    arrowImgs.push(loadImage('assets/DDR/clearPickDown.png'));
+    arrowImgs.push(loadImage('assets/DDR/clearPickUp.png'));
+    arrowImgs.push(loadImage('assets/DDR/clearPickRight.png'));
     // below is commented out in case we don't use the bow pulling animation
     // image.push(loadImage('assets/Aim Trainer/bow_pulling_0.png'));
     // image.push(loadImage('assets/Aim Trainer/bow_pulling_1.png'));
@@ -69,7 +77,7 @@ function setup() {
 
   marioParty = new MarioParty(backgroundImg, images);
   aimTrainer = new AimTrainer(targetImg);
-  ddr  = new DDR(arrowImg);
+  ddr  = new DDR(arrowImgs);
   
 
   gameState = 0;
@@ -198,18 +206,18 @@ function back() {
 }
 
 function draw() {
-    if(marioParty.getFinished()) {
-        // console.log("GameState ", gameState);
-        gameState = 0;
-        resizeCanvas(windowWidth, windowHeight);
-        back();
-    }
-    else if(aimTrainer.getFinished()) {
-        // console.log("GameState ", gameState);
-        gameState = 0;
-        resizeCanvas(windowWidth, windowHeight);
-        back();
-    }
+        if(ddr.getFinished()) {
+            // console.log("GameState ", gameState);
+            gameState = 0;
+            resizeCanvas(windowWidth, windowHeight);
+            back();
+        }
+        else if(aimTrainer.getFinished()) {
+            // console.log("GameState ", gameState);
+            gameState = 0;
+            resizeCanvas(windowWidth, windowHeight);
+            back();
+        }
 
     // console.log(gameState);
     
@@ -241,6 +249,10 @@ function keyPressed() {
         gameState = 0;
         resizeCanvas(windowWidth, windowHeight);
         back();
+    }
+    
+    if(gameState == 1) {
+        ddr.keyPressed(key);
     }
 }
 

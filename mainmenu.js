@@ -20,6 +20,9 @@ let backgroundImg;
 let aimTrainer;
 let targetImg;
 let arrowImgs = [];
+let gameBack;
+let checkButton;
+let targetImg2;
 
 
 
@@ -44,6 +47,7 @@ function preload() {
     images.push(loadImage('assets/MessyMemory/woodplank5.jpg'));
 
     targetImg = (loadImage('assets/Aim Trainer/target_side.png'));
+    targetImg2 = (loadImage('assets/Aim Trainer/tntblock.jpeg'))
     
     arrowImgs.push(loadImage('assets/DDR/diamondPickLeft.png'));
     arrowImgs.push(loadImage('assets/DDR/diamondPickDown.png'));
@@ -89,6 +93,8 @@ function setup() {
   buttons.push(createImg("assets/ddrButton.png"));
   buttons.push(createImg("assets/mmButton.png"));
   buttons.push(createImg("assets/aimButton.png"));
+  gameBack = createImg("assets/backButton.jpg");
+  checkButton = createImg("assets/backButton.jpg");
   
   buttons[0].position(165, 175);
   buttons[1].position(165, 250);
@@ -111,6 +117,15 @@ function setup() {
   buttons[7].position(165, 325);
   buttons[7].size(414, 38);
   buttons[7].hide();
+
+  gameBack.position(15, 470);
+  gameBack.size(200, 25);
+  gameBack.hide();
+
+  checkButton.position(550, 470);
+  checkButton.size(200, 25);
+  checkButton.hide();
+
   
   buttons[0].mousePressed(gameSelect);
   buttons[1].mousePressed(options);
@@ -118,9 +133,22 @@ function setup() {
   buttons[3].mousePressed(testSound);
   buttons[4].mousePressed(back);
   buttons[5].mousePressed(ddrFunc);
-  buttons[6].mousePressed(messymemory)
-  buttons[7].mousePressed(aimtrainer)
+  buttons[6].mousePressed(messymemory);
+  buttons[7].mousePressed(aimtrainer);
+  gameBack.mousePressed(back);
+  checkButton.mousePressed(chk);
 }
+
+function chk() {
+    if (marioParty.checkResult()) {
+        marioParty.revealed = true;
+    }
+    else {
+        this.gameState = "Failed";
+    }
+}
+
+
 function ddrFunc() {
     gameState = 1;
     
@@ -190,6 +218,8 @@ function testSound() {
 }
 
 function back() {
+    gameState = 0;
+
     buttons[0].show();
     buttons[1].show();
     buttons[2].show();
@@ -199,6 +229,9 @@ function back() {
     buttons[5].hide();
     buttons[6].hide();
     buttons[7].hide();
+
+    gameBack.hide();
+    checkButton.hide();
 }
 
 function draw() {
@@ -230,12 +263,16 @@ function draw() {
         }
         else if(gameState == 2) {
             marioParty.draw();
+            gameBack.show();
+            checkButton.show(); 
         }
         else if(gameState == 3) {
             aimTrainer.draw();
+            gameBack.show();
         }
         else if(gameState == 1) {
             ddr.draw();
+            gameBack.show();
         }
     // }
 }

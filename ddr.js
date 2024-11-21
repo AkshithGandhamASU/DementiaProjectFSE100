@@ -21,7 +21,6 @@ class DDR {
     frameCounter;
     next_time;
     prev_time;
-    back_button;
 
 
     
@@ -83,6 +82,8 @@ class DDR {
             }
         }
         // this.back_button.mousePressed(ddrback);
+        // this.back_button.size(150,20);
+        // this.back_button.position(20,650);
 
 
         

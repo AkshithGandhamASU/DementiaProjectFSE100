@@ -13,12 +13,14 @@ class AimTrainer {
     gameState;
     last;
     target_image;
+    target_image2;
     finished;
 
     constructor(target_image) {
        this.score = 0;
        this.missed = 0;
        this.target_image = target_image;
+       this.target_image2 = target_image2;
        this.finished = false;
     }
 
@@ -144,6 +146,7 @@ class AimTrainer {
                 if(this.checkBounds(target, mouseX, mouseY)) {
                     this.targets.splice(i, 1);
                     this.score++;
+                    test_sound.play();
                 }
             }
         }

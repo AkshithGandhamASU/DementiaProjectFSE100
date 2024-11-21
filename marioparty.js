@@ -138,18 +138,32 @@ class MarioParty {
             }
         } else if (this.gameState == "play") {
        
-            if (!this.revealed) {
-            for (let i = 0; i < this.playerOrder.length; i++) {
-                let item = this.items[this.playerOrder[i]]; 
+            if (!this.revealed && !this.finished) {
+                for (let i = 0; i < this.playerOrder.length; i++) {
+                    let item = this.items[this.playerOrder[i]]; 
+                    
                 
-              
-                if (mouseX > item.x && mouseX < item.x + this.tileSize &&
-                    mouseY > item.y && mouseY < item.y + this.tileSize) {
-                    this.selectedItem = i;  
-                    // console.log(this.selectedItem);
-                    break;
+                    if (mouseX > item.x && mouseX < item.x + this.tileSize &&
+                        mouseY > item.y && mouseY < item.y + this.tileSize) {
+                        this.selectedItem = i;  
+                        // console.log(this.selectedItem);
+                        break;
+                    }
                 }
             }
+
+            if(this.revealed) {
+                textSize(32);
+                fill(0, 255, 0);
+                text("Correct Order!", width / 2, height / 2);
+            }
+        } else if(this.gameState == "Failed"){
+            this.gameState = "Finished";
+            background('rgb(185,0,0)');
+            text("Time: " + (millis() - this.timeStarted)/1000 + "s", width/2, height/2);
+            text("Press q to exit to main menu", width/2, height/2 - 200)
+            if((!completion_sound.isPlaying()) && (!completion_sound.hasPlayed)){
+                completion_sound.play();
             }
         }
     }
@@ -219,12 +233,6 @@ class MarioParty {
     mouseReleased() {
         if (!this.revealed && this.selectedItem !== null) {
             this.selectedItem = null;
-            if (this.checkResult()) {
-                this.revealed = true;
-                textSize(32);
-                fill(0, 255, 0);
-                text("Correct Order!", width / 2, height / 2);
-            }
         }
     }
 

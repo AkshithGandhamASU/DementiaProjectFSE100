@@ -23,7 +23,6 @@ class AimTrainer {
     }
 
     start() {
-        resizeCanvas(800, 700);
         this.targets = [
             {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level},
             {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level},

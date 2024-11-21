@@ -44,6 +44,7 @@ function preload() {
     images.push(loadImage('assets/MessyMemory/woodplank5.jpg'));
 
     targetImg = (loadImage('assets/Aim Trainer/target_side.png'));
+    
     arrowImgs.push(loadImage('assets/DDR/diamondPickLeft.png'));
     arrowImgs.push(loadImage('assets/DDR/diamondPickDown.png'));
     arrowImgs.push(loadImage('assets/DDR/diamondPickUp.png'));
@@ -130,6 +131,8 @@ function ddrFunc() {
     buttons[5].hide();
     buttons[6].hide();
     buttons[7].hide();
+
+    
 }
 
 function messymemory() {
@@ -240,12 +243,15 @@ function draw() {
 function keyPressed() {
     if(key === 'q') {
         gameState = 0;
-        resizeCanvas(windowWidth, windowHeight);
+        imageMode(CORNER);
         back();
     }
     
     if(gameState == 1) {
         ddr.keyPressed(key);
+    }
+    else if(gameState == 2) {
+        marioParty.keyPressed(key);
     }
 }
 

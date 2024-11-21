@@ -34,15 +34,14 @@ class MarioParty {
 
     
     targetPositions = [
-        { x: 150, y: 150 },
-        { x: 300, y: 150 },
-        { x: 150, y: 300 },
-        { x: 300, y: 300 }
+        { x: 750/4 - this.tileSize/2, y: 500/4 - this.tileSize/2},
+        { x: (3*750)/4  - this.tileSize/2, y: 500/4 - this.tileSize/2},
+        { x: 750/4 - this.tileSize/2, y: (3*500)/4 - this.tileSize/2},
+        { x: (3*750)/4 - this.tileSize/2, y: (3*500)/4 - this.tileSize/2}
     ];
 
 
     setup() {
-        resizeCanvas(600, 600);  
         textSize(32);
         textAlign(CENTER, CENTER);
         this.gameState = "menu";
@@ -55,14 +54,6 @@ class MarioParty {
         this.originalOrder = [];       
        
         this.currentBackground = this.backgroundImg;
-
-        let modifiers = [
-            {x: -1, y: -1},
-            {x: +1, y: -1},
-            {x: -1, y: +1},
-            {x: +1, y: +1},
-        ];
-
        
         for (let i = 0; i < 4; i++) {
             let target = this.targetPositions[i]; 
@@ -70,8 +61,8 @@ class MarioParty {
                 id: i + (this.difficulty * 4),              
                 x: random(width - this.tileSize), 
                 y: random(height - this.tileSize), 
-                targetX: target.x + ((this.tileSize/2) * modifiers[i].x),  
-                targetY: target.y + ((this.tileSize/2) * modifiers[i].y)   
+                targetX: target.x + ((this.tileSize/2)),  
+                targetY: target.y + ((this.tileSize/2))   
             });
             this.originalOrder.push(i); 
         }
@@ -209,6 +200,15 @@ class MarioParty {
             let item = this.items[this.playerOrder[this.selectedItem]];
             item.x = mouseX;
             item.y = mouseY;
+        }
+    }
+
+    keyPressed(key) {
+        if(this.gameState == "Finished") {
+            this.gameState = "play";
+            this.revealed = false;
+            this.finished = false;
+            this.initializeItems();
         }
     }
 

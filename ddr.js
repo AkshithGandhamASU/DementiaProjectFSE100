@@ -21,6 +21,8 @@ class DDR {
     frameCounter;
     next_time;
     prev_time;
+    back_button;
+
 
     
     constructor(arrowImgs) {  
@@ -32,6 +34,8 @@ class DDR {
         this.arrowSpeed = 4;
         this.spawnInterval = 60;
         this.frameCounter = 0;
+        // this.back_button(createImg("assets/backButton.jpg"))
+
     }
     
 
@@ -40,7 +44,6 @@ class DDR {
     
 
     setup() {
-        resizeCanvas(700, 700);
         this.state = -1;
         this.gameState = "menu";
          
@@ -79,7 +82,16 @@ class DDR {
                 completion_sound.play();
             }
         }
+        // this.back_button.mousePressed(ddrback);
+
+
+        
+        
     }
+    // backPressed() {
+        // gameState = 0;
+    // }
+    
     
     drawMenu() {
         background(100, 150, 250);
@@ -190,12 +202,6 @@ class DDR {
 
     keyPressed(key) {
         // console.log("resizing");
-
-        if(key == 'q') {
-            console.log("resizing");
-            resizeCanvas(1000, 500);
-        }
-
         if(this.level == 1) {
             // console.log("ressed");
             if(this.distance() < 25){

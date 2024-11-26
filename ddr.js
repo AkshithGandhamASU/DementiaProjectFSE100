@@ -21,10 +21,13 @@ class DDR {
     frameCounter;
     next_time;
     prev_time;
+    bg;
+    hard_bg;
+    easy_bg;
 
 
     
-    constructor(arrowImgs) {  
+    constructor(arrowImgs, easy_bg, hard_bg) {  
         this.score = 0;
         this.missed = 0;
         this.arrowImgs = arrowImgs;
@@ -33,6 +36,9 @@ class DDR {
         this.arrowSpeed = 4;
         this.spawnInterval = 60;
         this.frameCounter = 0;
+        this.easy_bg = easy_bg;
+        this.hard_bg = hard_bg;
+        this.bg = null;
         // this.back_button(createImg("assets/backButton.jpg"))
 
     }
@@ -98,23 +104,30 @@ class DDR {
         background(100, 150, 250);
         textSize(32);
         fill(255);
-        text("Select difficulty", width / 2, height / 3);
+        text("Select difficulty", 250, height / 3);
 
        
         textSize(24);
         fill(0, 200, 0);
         rect(width / 2 - 100, height / 2 - 30, 200, 50, 10);  
         fill(255);
-        text("Easy", width / 2, height / 2 - 5);
+        text("Easy", 350, height / 2 - 5);
 
         fill(200, 0, 0);
         rect(width / 2 - 100, height / 2 + 40, 200, 50, 10);  
         fill(255);
-        text("Hard", width / 2, height / 2 + 65);
+        text("Hard", 350, height / 2 + 65);
+
+        fill(0);
+        text("Click on the correct corresponding arrow on your\n keyboard when the arrows line up!", 30, height / 2 + 120);
+
+        
     }
 
     drawGame() {
-        background(0);
+        imageMode(CORNER);
+        background(this.bg);
+        imageMode(CENTER);
         fill(0, 255, 255);
         let arr = [[66, 50], [50, 66], [50, 66],[66, 50]]
         for(let i = 0; i < this.level; i++){
@@ -183,6 +196,7 @@ class DDR {
               this.start();
               this.gameState = "play";
               this.state = 0;
+              this.bg = this.easy_bg;
             //   this.started = true;   
             }
 
@@ -193,6 +207,7 @@ class DDR {
               this.start();
               this.state = 0;
               this.gameState = "play";
+              this.bg = this.hard_bg;
               //   this.started = true;
             }
         }
@@ -221,58 +236,58 @@ class DDR {
         }
     
         // switch(key) {
-            if(key == "ArrowLeft") {
-                // console.log(this.arrows[0].x, (width/5));
-                if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (1))){
-                    this.score += 1;
-                    this.arrows.splice(0, 1);
-                    ddr_hit.play();
-                }
-                else {
-                    this.missed += 1;
-                    this.arrows.splice(0, 1);
-                    ddr_misssound.play();
-                }
+        if(key == "ArrowLeft") {
+            // console.log(this.arrows[0].x, (width/5));
+            if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (1))){
+                this.score += 1;
+                this.arrows.splice(0, 1);
+                ddr_hit.play();
             }
-            else if(key == "ArrowRight") {
-                // console.log(this.arrows[0].x, (width/5) * 4)
-                if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (4))){
-                    this.score += 1;
-                    this.arrows.splice(0, 1);
-                    ddr_hit.play();
-                }
-                else {
-                    this.missed += 1;
-                    this.arrows.splice(0, 1);
-                    ddr_misssound.play();
-                }
+            else {
+                this.missed += 1;
+                this.arrows.splice(0, 1);
+                ddr_misssound.play();
             }
-            else if(key == "ArrowUp") {
-                // console.log(this.arrows[0].x, (width/5) * 3)
-                if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (3))){
-                    this.score += 1;
-                    this.arrows.splice(0, 1);
-                    ddr_hit.play();
-                }
-                else {
-                    this.missed += 1;
-                    this.arrows.splice(0, 1);
-                    ddr_misssound.play();
-                }
+        }
+        else if(key == "ArrowRight") {
+            // console.log(this.arrows[0].x, (width/5) * 4)
+            if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (4))){
+                this.score += 1;
+                this.arrows.splice(0, 1);
+                ddr_hit.play();
             }
-            else if(key == "ArrowDown") {
-                // console.log(this.arrows[0].x, (width/5) * 2)
-                if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (2))){
-                    this.score += 1;
-                    this.arrows.splice(0, 1);
-                    ddr_hit.play();
-                }
-                else {
-                    this.missed += 1;
-                    this.arrows.splice(0, 1);
-                    ddr_misssound.play();
-                }
+            else {
+                this.missed += 1;
+                this.arrows.splice(0, 1);
+                ddr_misssound.play();
             }
+        }
+        else if(key == "ArrowUp") {
+            // console.log(this.arrows[0].x, (width/5) * 3)
+            if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (3))){
+                this.score += 1;
+                this.arrows.splice(0, 1);
+                ddr_hit.play();
+            }
+            else {
+                this.missed += 1;
+                this.arrows.splice(0, 1);
+                ddr_misssound.play();
+            }
+        }
+        else if(key == "ArrowDown") {
+            // console.log(this.arrows[0].x, (width/5) * 2)
+            if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (2))){
+                this.score += 1;
+                this.arrows.splice(0, 1);
+                ddr_hit.play();
+            }
+            else {
+                this.missed += 1;
+                this.arrows.splice(0, 1);
+                ddr_misssound.play();
+            }
+        }
         // }
     }
     

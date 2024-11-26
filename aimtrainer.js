@@ -99,25 +99,29 @@ class AimTrainer {
     }
 
     drawMenu() {
+        imageMode(CENTER);
         background(100, 150, 250);
         textSize(32);
         fill(255);
-        text("Select difficulty", width / 2, height / 3);
+        text("Select difficulty", 250, height / 3);
 
        
         textSize(24);
         fill(0, 200, 0);
         rect(width / 2 - 100, height / 2 - 30, 200, 50, 10);  
         fill(255);
-        text("Easy", width / 2, height / 2 - 5);
+        text("Easy", 350, height / 2 - 5);
 
         fill(200, 0, 0);
         rect(width / 2 - 100, height / 2 + 40, 200, 50, 10);  
         fill(255);
-        text("Hard", width / 2, height / 2 + 65);
+        text("Hard", 350, height / 2 + 65);
 
-                 
-    
+        fill(0);
+        text("Click on the target squares, but avoid clicking on the tnt!", 25, height / 2 + 120);
+
+        imageMode(CORNER);
+
     }
     
 

@@ -26,6 +26,8 @@ let targetImg2;
 let hit_sound;
 let ddr_misssound;
 let ddr_hit;
+let easy_background;
+let hard_background;
 
 
 
@@ -53,7 +55,10 @@ function preload() {
     images.push(loadImage('assets/MessyMemory/woodplank5.jpg'));
 
     targetImg = (loadImage('assets/Aim Trainer/target_side.png'));
-    targetImg2 = (loadImage('assets/Aim Trainer/tntblock.jpeg'))
+    targetImg2 = (loadImage('assets/Aim Trainer/tntblock.jpeg'));
+
+    easy_background = (loadImage('assets/DDR/Background/Blurred_easyBackground.jpg'));
+    hard_background = (loadImage('assets/DDR/Background/Blurred_hardBackground.jpg'));
     
     arrowImgs.push(loadImage('assets/DDR/diamondPickLeft.png'));
     arrowImgs.push(loadImage('assets/DDR/diamondPickDown.png'));
@@ -81,7 +86,7 @@ function setup() {
 
   marioParty = new MarioParty(backgroundImg, images);
   aimTrainer = new AimTrainer(targetImg, targetImg2);
-  ddr  = new DDR(arrowImgs);
+  ddr  = new DDR(arrowImgs, easy_background, hard_background);
   
 
   gameState = 0;
@@ -100,7 +105,7 @@ function setup() {
   buttons.push(createImg("assets/mmButton.png"));
   buttons.push(createImg("assets/aimButton.png"));
   gameBack = createImg("assets/backButton.jpg");
-  checkButton = createImg("assets/backButton.jpg");
+  checkButton = createImg("assets/MessyMemory/YES.png");
   
   buttons[0].position(165, 175);
   buttons[1].position(165, 250);
@@ -150,7 +155,7 @@ function chk() {
         marioParty.revealed = true;
     }
     else {
-        this.gameState = "Failed";
+        marioParty.gameState = "Failed";
     }
 }
 

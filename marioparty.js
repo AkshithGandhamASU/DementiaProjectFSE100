@@ -43,7 +43,7 @@ class MarioParty {
 
     setup() {
         textSize(32);
-        textAlign(CENTER, CENTER);
+        // textAlign(CENTER, CENTER);
         this.gameState = "menu";
         // console.log("setup" + this.gameState);
         this.started = true;
@@ -101,22 +101,28 @@ class MarioParty {
     }
 
     drawMenu() {
+        imageMode(CENTER);
         background(100, 150, 250);
         textSize(32);
         fill(255);
-        text("Select difficulty", width / 2, height / 3);
+        text("Select difficulty", 250, height / 3);
 
        
         textSize(24);
         fill(0, 200, 0);
         rect(width / 2 - 100, height / 2 - 30, 200, 50, 10);  
         fill(255);
-        text("Easy", width / 2, height / 2 - 5);
+        text("Easy", 350, height / 2 - 5);
 
         fill(200, 0, 0);
         rect(width / 2 - 100, height / 2 + 40, 200, 50, 10);  
         fill(255);
-        text("Hard", width / 2, height / 2 + 65);
+        text("Hard", 350, height / 2 + 65);
+
+        fill(0);
+        text("Remember the order shown and drag the\n corresponding images to the right spots\n and click yes button to confirm!", 85, height / 2 + 120);
+        imageMode(CORNER);
+
     }
 
     mousePressed() {
@@ -155,11 +161,12 @@ class MarioParty {
             if(this.revealed) {
                 textSize(32);
                 fill(0, 255, 0);
-                text("Correct Order!", width / 2, height / 2);
+                text("Correct Order, Good Job!", width / 2, height / 2);
             }
         } else if(this.gameState == "Failed"){
             this.gameState = "Finished";
             background('rgb(185,0,0)');
+            text("Sorry, Try Again", width/2, height/2 - 45);
             text("Time: " + (millis() - this.timeStarted)/1000 + "s", width/2, height/2);
             text("Press q to exit to main menu", width/2, height/2 - 200)
             if((!completion_sound.isPlaying()) && (!completion_sound.hasPlayed)){

@@ -71,7 +71,7 @@ class DDR {
             //
         }
 
-        if(this.score == 30){
+        if(this.score == 20){
             this.gameState = "Finished";
             background('rgb(0,185,0)');
             text("Missed: " + this.missed, width/2, height/2);
@@ -143,6 +143,7 @@ class DDR {
             if(this.arrows[i].y <= 0 || this.arrows[i].time <= 0) {
                 this.arrows.splice(i, 1);
                 this.missed++;
+                ddr_misssound.play();
             }
         }
             
@@ -209,10 +210,12 @@ class DDR {
                 this.score += 1;
                 console.log(this.score);
                 this.arrows.splice(0, 1);
+                ddr_hit.play();
             }
             else {
                 this.missed += 1;
                 this.arrows.splice(0, 1);
+                ddr_misssound.play();
             }
             return;
         }
@@ -223,10 +226,12 @@ class DDR {
                 if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (1))){
                     this.score += 1;
                     this.arrows.splice(0, 1);
+                    ddr_hit.play();
                 }
                 else {
                     this.missed += 1;
                     this.arrows.splice(0, 1);
+                    ddr_misssound.play();
                 }
             }
             else if(key == "ArrowRight") {
@@ -234,10 +239,12 @@ class DDR {
                 if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (4))){
                     this.score += 1;
                     this.arrows.splice(0, 1);
+                    ddr_hit.play();
                 }
                 else {
                     this.missed += 1;
                     this.arrows.splice(0, 1);
+                    ddr_misssound.play();
                 }
             }
             else if(key == "ArrowUp") {
@@ -245,10 +252,12 @@ class DDR {
                 if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (3))){
                     this.score += 1;
                     this.arrows.splice(0, 1);
+                    ddr_hit.play();
                 }
                 else {
                     this.missed += 1;
                     this.arrows.splice(0, 1);
+                    ddr_misssound.play();
                 }
             }
             else if(key == "ArrowDown") {
@@ -256,10 +265,12 @@ class DDR {
                 if(this.distance() < 25 && this.arrows[0].x == ((width/5) * (2))){
                     this.score += 1;
                     this.arrows.splice(0, 1);
+                    ddr_hit.play();
                 }
                 else {
                     this.missed += 1;
                     this.arrows.splice(0, 1);
+                    ddr_misssound.play();
                 }
             }
         // }

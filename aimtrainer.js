@@ -16,7 +16,7 @@ class AimTrainer {
     target_image2;
     finished;
 
-    constructor(target_image) {
+    constructor(target_image, target_image2) {
        this.score = 0;
        this.missed = 0;
        this.target_image = target_image;
@@ -26,11 +26,11 @@ class AimTrainer {
 
     start() {
         this.targets = [
-            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level},
-            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level},
-            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level},
-            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level},
-            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level},
+            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level, img:2},
+            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level, img:2},
+            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level, img:1},
+            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level, img:1},
+            {x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level, img:1},
         ];
         this.started = false;
         this.last = second();
@@ -56,13 +56,16 @@ class AimTrainer {
                 this.targets[i].r -= 0.0001;
                 if(this.targets[i].time <= 400) {
                     this.targets.splice(i, 1);
-                    this.missed++;
+                    if(this.targets[i].img == 1) {
+                        this.missed++;
+                        test_sound.play();
+                    }
                 }
             }
 
             if(((second() % (3/this.level)) == 0) && second() != this.last){
                 console.log("Spawn");
-                this.targets.push({x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level});
+                this.targets.push({x:random(20, width-20), y:random(20, height-20), r:40, time:10000/this.level, img: Math.round(random(1, 2))});
                 this.last = second();
             }
         }
@@ -86,7 +89,10 @@ class AimTrainer {
     drawGame() {
         background(0);
         for(let i = 0; i < this.targets.length; i++) {
-            image(this.target_image, this.targets[i].x, this.targets[i].y, this.targets[i].r, this.targets[i].r);
+            if(this.targets[i].img == 2)
+                image(this.target_image2, this.targets[i].x, this.targets[i].y, this.targets[i].r, this.targets[i].r);
+            else if(this.targets[i].img == 1)
+                image(this.target_image, this.targets[i].x, this.targets[i].y, this.targets[i].r, this.targets[i].r);
         }
         text("Score: " + this.score, 20, 20);
         text("Missed: " + this.missed, 20, 100);
@@ -117,8 +123,8 @@ class AimTrainer {
 
     checkBounds(target, x, y) {
         let within_x, within_y;
-        within_x = (x <= target.x + target.r/2) && (x >= target.x - target.r/2);
-        within_y = (y <= target.y + target.r/2) && (y >= target.y - target.r/2);
+        within_x = (x <= target.x + target.r) && (x >= target.x - target.r);
+        within_y = (y <= target.y + target.r) && (y >= target.y - target.r);
 
         return within_x && within_y;
     }
@@ -144,9 +150,16 @@ class AimTrainer {
             for(let i = 0; i < this.targets.length; i++) {
                 let target = this.targets[i];
                 if(this.checkBounds(target, mouseX, mouseY)) {
-                    this.targets.splice(i, 1);
-                    this.score++;
-                    test_sound.play();
+                    if(target.img == 1) {
+                        this.targets.splice(i, 1);
+                        this.score++;
+                        hit_sound.play();
+                    }
+                    else if(target.img == 2) {
+                        this.targets.splice(i, 1);
+                        this.missed++;
+                        test_sound.play();
+                    }
                 }
             }
         }

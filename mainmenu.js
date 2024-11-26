@@ -23,6 +23,9 @@ let arrowImgs = [];
 let gameBack;
 let checkButton;
 let targetImg2;
+let hit_sound;
+let ddr_misssound;
+let ddr_hit;
 
 
 
@@ -32,6 +35,9 @@ function preload() {
     font = loadFont("assets/MinecraftRegular-Bmg3.otf");
     test_sound = loadSound("assets/creeper-explosion-sound-106759.mp3");
     completion_sound = loadSound("assets/DDR/levelup.mp3");
+    hit_sound = loadSound("assets/Aim Trainer/arrowhit.mp3");
+    ddr_misssound = loadSound("assets/DDR/Music/minecraft-cave-ambience-made-with-Voicemod.mp3");
+    ddr_hit = loadSound("assets/DDR/Music/minecraft-note-block---pling-made-with-Voicemod.mp3");
    
 
     // randomSeed(7519);
@@ -74,7 +80,7 @@ function setup() {
   quiting = false;
 
   marioParty = new MarioParty(backgroundImg, images);
-  aimTrainer = new AimTrainer(targetImg);
+  aimTrainer = new AimTrainer(targetImg, targetImg2);
   ddr  = new DDR(arrowImgs);
   
 
@@ -219,6 +225,7 @@ function testSound() {
 
 function back() {
     gameState = 0;
+    imageMode(CORNER);
 
     buttons[0].show();
     buttons[1].show();

@@ -94,6 +94,7 @@ class AimTrainer {
             else if(this.targets[i].img == 1)
                 image(this.target_image, this.targets[i].x, this.targets[i].y, this.targets[i].r, this.targets[i].r);
         }
+        fill(255, 255, 255);
         text("Score: " + this.score, 20, 20);
         text("Missed: " + this.missed, 20, 100);
     }
